@@ -1246,17 +1246,29 @@ const Q = [
 ];
 
 const OPTION_MSGS = [
+  // Q0 — transport
   ['Room for improvement!','🚕 Sharing rides cuts emissions and costs — smart.','🚌 Public transit is one of the best climate choices you can make.','🚲 Zero emissions and great exercise — respect.','🏠 No commute = no commute emissions. That counts.'],
+  // Q1 — miles
   ['📍 Under 10 miles a week — your driving footprint is minimal.','🛣️ Reasonable range — small tweaks could make a big dent.','🗺️ That adds up over a year — worth thinking about.','⛽ High mileage is the #1 driver of transport emissions.','🛞 300+ miles weekly is significant — but fixable.'],
-  ['🚙 Gas cars are the baseline — room to upgrade someday.','🔋 Hybrids are a solid middle ground — good choice.', '⚡ Electric vehicles produce ~70% less CO₂ here in CA.','🚚 Large trucks & SUVs emit up to 2× more than sedans.', '🚶 Not driving at all is the greenest option of all.'],
-['🏰 Larger homes use more energy to run — but it can be greened.', '🏘️ Medium home, medium footprint — the details matter.', '🏚️ A smaller home is a lighter footprint — good.', '🏢 Apartments are among the most energy-efficient options.', '🏫 Shared or smaller spaces are naturally more efficient.'],
- ['🙋 Solo living means solo energy use — efficiency habits matter.', '👫 Two people splitting energy costs is better than one.','👨‍👩‍👧 3–4 people sharing is a solid efficiency win.', '👨‍👩‍👧‍👦 Sharing a home splits the footprint — every person helps.'],
- ['🔥 Fossil fuels are the biggest home footprint driver — but switchable.','⚡ Mixed sources means there\'s room to shift greener.','💨 Renewable energy is a game-changer for your home footprint.','☀️ Solar at home is as green as it gets. Seriously impressive.','🤷 Not sure? Worth checking your utility — it takes 2 minutes.'],
- ['🥩 Red meat is the highest-emission food — but small cuts add up.', '🍗 A few meat-free days a week already makes a measurable difference.', '🐟 Chicken and fish emit far less than red meat.', '🥦 Vegetarian diets cut food emissions significantly — great choice.', '🌱 Vegan is one of the lowest-footprint diets on Earth.'],
- ['✅ Almost zero food waste means almost zero hidden emissions.','👍 Rarely wasting food puts you ahead of most Americans.','🤔 Occasional waste happens — meal planning can help.','🗑️ Food waste is a hidden climate problem — and one of the easiest to fix.'],
-['🛍️ Fast fashion and frequent buys have a big hidden footprint.', '🛒 Moderate consumption — secondhand swaps can help here.', '♻️ Buying rarely is a real climate win — quality over quantity.', '🌿 Almost never buying new = a very low consumption footprint.']
-['📵 Under an hour a day — your digital footprint is minimal.','📱 1–3 hours is typical — but it adds up across millions of users.','💻 3–6 hours daily means data centers are working hard for you.','📺 6+ hours is significant — every stream requests server power around the clock.'],
-  ['♻️ Only replacing when broken is the greenest device habit possible.','🔧 4–5 years is a solid lifespan — makes a real difference.','⏳ Every 2–3 years is about average — extending even one cycle helps.','🔄 Annual upgrades mean near-constant manufacturing emissions — the biggest device footprint.'],
+  // Q2 — vehicle
+  ['🚙 Gas cars are the baseline — room to upgrade someday.','🔋 Hybrids are a solid middle ground — good choice.','⚡ Electric vehicles produce ~70% less CO₂ here in CA.','🚚 Large trucks & SUVs emit up to 2× more than sedans.','🚶 Not driving at all is the greenest option of all.'],
+  // Q3 — hometype
+  ['🏰 Larger homes use more energy to run — but it can be greened.','🏘️ Medium home, medium footprint — the details matter.','🏚️ A smaller home is a lighter footprint — good.','🏢 Apartments are among the most energy-efficient options.','🏫 Shared or smaller spaces are naturally more efficient.'],
+  // Q4 — household
+  ['🙋 Solo living means solo energy use — efficiency habits matter.','👫 Two people splitting energy costs is better than one.','👨‍👩‍👧 3–4 people sharing is a solid efficiency win.','👨‍👩‍👧‍👦 Sharing a home splits the footprint — every person helps.'],
+  // Q5 — energy
+  ['🔥 Fossil fuels are the biggest home footprint driver — but switchable.','⚡ Mixed sources means there\'s room to shift greener.','💨 Renewable energy is a game-changer for your home footprint.','☀️ Solar at home is as green as it gets. Seriously impressive.','🤷 Not sure? Worth checking your utility — it takes 2 minutes.'],
+  // Q6 — diet
+  ['🥩 Red meat is the highest-emission food — but small cuts add up.','🍗 A few meat-free days a week already makes a measurable difference.','🐟 Chicken and fish emit far less than red meat.','🥦 Vegetarian diets cut food emissions significantly — great choice.','🌱 Vegan is one of the lowest-footprint diets on Earth.'],
+  // Q7 — waste
+  ['🗑️ Food waste is a hidden climate problem — and one of the easiest to fix.','🤔 Occasional waste happens — meal planning can help.','👍 Rarely wasting food puts you ahead of most Americans.','✅ Almost zero food waste means almost zero hidden emissions.'],
+  // Q8 — consumption
+  ['🛍️ Fast fashion and frequent buys have a big hidden footprint.','🛒 Moderate consumption — secondhand swaps can help here.','♻️ Buying rarely is a real climate win — quality over quantity.','🌿 Almost never buying new = a very low consumption footprint.'],
+  // Q9 — streaming  ← THE MISSING COMMA WAS HERE
+  ['📵 Under an hour a day — your digital footprint is minimal.','📱 1–3 hours is typical — but it adds up across millions of users.','💻 3–6 hours daily means data centers are working hard for you.','📺 6+ hours is significant — every stream requests server power around the clock.'],
+  // Q10 — devices
+  ['🔄 Annual upgrades mean near-constant manufacturing emissions — the biggest device footprint.','⏳ Every 2–3 years is about average — extending even one cycle helps.','🔧 4–5 years is a solid lifespan — makes a real difference.','♻️ Only replacing when broken is the greenest device habit possible.'],
+  // Q11 — reflection
   ['🚗 Let\'s see if transportation matches your guess…','🏠 Home energy is trickier to see — curious to find out?','🥦 Food is often underestimated. Let\'s check!','🛍️ Consumption has hidden emissions most people miss.','💻 Tech is the surprise category — most people don\'t expect it.']
 ];
 
