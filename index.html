@@ -1324,7 +1324,7 @@ function renderQ(i) {
   const sel = ans[i];
   const pct = Math.round((i / Q.length) * 100);
   document.getElementById('prog-fill').style.width = pct + '%';
-  const displayTotal = Q.length - 1;
+  const displayTotal = Q.length;
   const displayNum = Math.min(i + 1, displayTotal);
   document.getElementById('prog-count').textContent = displayNum + ' / ' + displayTotal;
 
