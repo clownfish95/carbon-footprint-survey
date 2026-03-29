@@ -216,8 +216,6 @@ body {
 .tag-e { color: #EF9F27; border-color: rgba(239,159,39,.3); background: rgba(239,159,39,.08); }
 .tag-f { color: var(--green-neon); border-color: rgba(127,255,0,.3); background: rgba(127,255,0,.06); }
 .tag-c { color: #AFA9EC; border-color: rgba(175,169,236,.3); background: rgba(175,169,236,.08); }
-.tag-d { color: #38bdf8; border-color: rgba(56,189,248,.3); background: rgba(56,189,248,.07); }
-.tag-r { color: #f472b6; border-color: rgba(244,114,182,.3); background: rgba(244,114,182,.07); }
 
 .q-number {
   font-family: var(--font-display);
@@ -1038,9 +1036,9 @@ body {
     How much CO₂ do
     <em>you actually emit?</em>
   </h1>
-  <div class="splash-stat">Greenland is losing about <strong> 30 million tons</strong> of ice per hour- enough annualy to cover the entire US in several inches of water.</div>
+  <div class="splash-stat">Americans emit <strong>16× more CO₂</strong> than the average person in India — most have no idea where it's coming from</div>
   <button class="splash-cta" onclick="startSurvey()">Find out in 60 seconds →</button>
-  <span class="splash-sub">12 questions · totally free · eye-opening</span>
+  <span class="splash-sub">10 questions · totally free · eye-opening</span>
 </div>
 
 
@@ -1112,11 +1110,6 @@ body {
 
   <div class="section-divider"></div>
 
-  <!-- Reflection reveal -->
-  <div class="results-section" style="padding-bottom:0;">
-    <div id="reflection-reveal"></div>
-  </div>
-
   <!-- Breakdown -->
   <div class="results-section">
     <div class="section-label">Where it's coming from</div>
@@ -1177,7 +1170,14 @@ body {
       Silicon Valley Youth Climate Action
     </div>
     <h2 class="svyca-headline">Climate change is a policy problem.<br>Youth can fix it.</h2>
-    <p class="svyca-desc">SVYCA is a youth-led nonprofit empowering Bay Area students to fight climate change — not just with facts, but with action. We meet with legislators, push clean energy policy, run community campaigns, and train the next generation of climate leaders. It's science, yes. But also advocacy, tech, policy, and real-world impact.</p>
+    <p class="svyca-desc">
+      <h3>Silicon Valley Youth Climate Action (SVYCA)</h3>
+<ul>
+  <li>Youth-led climate action organization where high school students work on real environmental solutions in their communities.</li>
+  <li>Lead projects and organize events focused on sustainability, policy, and climate education.</li>
+  <li>Collaborate with motivated students across Silicon Valley who want to make an impact.</li>
+  <li>Build leadership, advocacy, and project experience that strengthens resumes, college applications, and future opportunities.</li>
+</ul> </p>
     <div class="svyca-tags">
       <span class="svyca-tag">Policy Advocacy</span>
       <span class="svyca-tag">Clean Energy</span>
@@ -1207,6 +1207,10 @@ const Q = [
    text:'What kind of vehicle do you use most?',
    why:'An EV and a large pickup truck can differ by 10× in emissions per mile.',
    opts:[{l:'Gas car',e:'🚙',w:8},{l:'Hybrid',e:'🔋',w:4},{l:'Electric vehicle',e:'⚡',w:1},{l:'Large SUV or truck',e:'🚚',w:14},{l:"I don't drive",e:'🚶',w:0}]},
+  {id:'flights',sec:'Transportation',tag:'tag-t',
+   text:'How many round-trip flights per year?',
+   why:'One transatlantic flight can equal two months of driving.',
+   opts:[{l:'None',e:'🏡',w:0},{l:'1',e:'✈️',w:8},{l:'2–3',e:'🗺️',w:18},{l:'4–6',e:'🌍',w:32},{l:'7 or more',e:'🌐',w:50}]},
   {id:'hometype',sec:'Home Energy',tag:'tag-e',
    text:'What kind of home do you live in?',
    why:'Home size strongly predicts how much energy you use to heat, cool, and power it.',
@@ -1230,57 +1234,31 @@ const Q = [
   {id:'consumption',sec:'Consumption',tag:'tag-c',
    text:'How often do you buy new clothes, gadgets, or non-essential stuff?',
    why:'Manufacturing new goods — especially fast fashion — is surprisingly carbon-heavy.',
-   opts:[{l:'Very often',e:'🛍️',w:12},{l:'Sometimes',e:'🛒',w:6},{l:'Rarely',e:'♻️',w:2},{l:'Almost never',e:'🌿',w:0}]},
-  {id:'streaming',sec:'Technology',tag:'tag-d',
-   text:'How many hours a day do you spend streaming or using cloud apps?',
-   why:'Streaming and cloud services run on energy-hungry data centers — most people never think about it.',
-   opts:[{l:'Less than 1 hour',e:'📵',w:1},{l:'1–3 hours',e:'📱',w:4},{l:'3–6 hours',e:'💻',w:8},{l:'6+ hours',e:'📺',w:12}]},
-  {id:'devices',sec:'Technology',tag:'tag-d',
-   text:'How often do you upgrade phones, laptops, or other devices?',
-   why:'Manufacturing a single smartphone emits as much CO₂ as charging it every day for 10 years.',
-   opts:[{l:'Every year',e:'🔄',w:14},{l:'Every 2–3 years',e:'⏳',w:8},{l:'Every 4–5 years',e:'🔧',w:3},{l:'Only when it breaks',e:'♻️',w:0}]},
-  {id:'reflection',sec:'Reflection',tag:'tag-r',
-   text:'Before you see your results — which area do you think is your biggest carbon source?',
-   why:'We\'ll compare your guess to the actual calculation. Most people are surprised.',
-   opts:[{l:'Transportation',e:'🚗',w:0,guess:'transport'},{l:'Home energy',e:'🏠',w:0,guess:'energy'},{l:'Food',e:'🥦',w:0,guess:'food'},{l:'Shopping / consumption',e:'🛍️',w:0,guess:'consumption'},{l:'Technology',e:'💻',w:0,guess:'tech'}]}
+   opts:[{l:'Very often',e:'🛍️',w:12},{l:'Sometimes',e:'🛒',w:6},{l:'Rarely',e:'♻️',w:2},{l:'Almost never',e:'🌿',w:0}]}
 ];
 
 const OPTION_MSGS = [
-  // Q0 — transport
-  ['Room for improvement!','🚕 Sharing rides cuts emissions and costs — smart.','🚌 Public transit is one of the best climate choices you can make.','🚲 Zero emissions and great exercise — respect.','🏠 No commute = no commute emissions. That counts.'],
-  // Q1 — miles
+  ['🚶 Remote or car-free? Already making a difference.','🚕 Sharing rides cuts emissions and costs — smart.','🚌 Public transit is one of the best climate choices you can make.','🚲 Zero emissions and great exercise — respect.','🏠 No commute = no commute emissions. That counts.'],
   ['📍 Under 10 miles a week — your driving footprint is minimal.','🛣️ Reasonable range — small tweaks could make a big dent.','🗺️ That adds up over a year — worth thinking about.','⛽ High mileage is the #1 driver of transport emissions.','🛞 300+ miles weekly is significant — but fixable.'],
-  // Q2 — vehicle
-  ['🚙 Gas cars are the baseline — room to upgrade someday.','🔋 Hybrids are a solid middle ground — good choice.','⚡ Electric vehicles produce ~70% less CO₂ here in CA.','🚚 Large trucks & SUVs emit up to 2× more than sedans.','🚶 Not driving at all is the greenest option of all.'],
-  // Q3 — hometype
-  ['🏰 Larger homes use more energy to run — but it can be greened.','🏘️ Medium home, medium footprint — the details matter.','🏚️ A smaller home is a lighter footprint — good.','🏢 Apartments are among the most energy-efficient options.','🏫 Shared or smaller spaces are naturally more efficient.'],
-  // Q4 — household
-  ['🙋 Solo living means solo energy use — efficiency habits matter.','👫 Two people splitting energy costs is better than one.','👨‍👩‍👧 3–4 people sharing is a solid efficiency win.','👨‍👩‍👧‍👦 Sharing a home splits the footprint — every person helps.'],
-  // Q5 — energy
-  ['🔥 Fossil fuels are the biggest home footprint driver — but switchable.','⚡ Mixed sources means there\'s room to shift greener.','💨 Renewable energy is a game-changer for your home footprint.','☀️ Solar at home is as green as it gets. Seriously impressive.','🤷 Not sure? Worth checking your utility — it takes 2 minutes.'],
-  // Q6 — diet
-  ['🥩 Red meat is the highest-emission food — but small cuts add up.','🍗 A few meat-free days a week already makes a measurable difference.','🐟 Chicken and fish emit far less than red meat.','🥦 Vegetarian diets cut food emissions significantly — great choice.','🌱 Vegan is one of the lowest-footprint diets on Earth.'],
-  // Q7 — waste
-  ['🗑️ Food waste is a hidden climate problem — and one of the easiest to fix.','🤔 Occasional waste happens — meal planning can help.','👍 Rarely wasting food puts you ahead of most Americans.','✅ Almost zero food waste means almost zero hidden emissions.'],
-  // Q8 — consumption
-  ['🛍️ Fast fashion and frequent buys have a big hidden footprint.','🛒 Moderate consumption — secondhand swaps can help here.','♻️ Buying rarely is a real climate win — quality over quantity.','🌿 Almost never buying new = a very low consumption footprint.'],
-  // Q9 — streaming  ← THE MISSING COMMA WAS HERE
-  ['📵 Under an hour a day — your digital footprint is minimal.','📱 1–3 hours is typical — but it adds up across millions of users.','💻 3–6 hours daily means data centers are working hard for you.','📺 6+ hours is significant — every stream requests server power around the clock.'],
-  // Q10 — devices
-  ['🔄 Annual upgrades mean near-constant manufacturing emissions — the biggest device footprint.','⏳ Every 2–3 years is about average — extending even one cycle helps.','🔧 4–5 years is a solid lifespan — makes a real difference.','♻️ Only replacing when broken is the greenest device habit possible.'],
-  // Q11 — reflection
-  ['🚗 Let\'s see if transportation matches your guess…','🏠 Home energy is trickier to see — curious to find out?','🥦 Food is often underestimated. Let\'s check!','🛍️ Consumption has hidden emissions most people miss.','💻 Tech is the surprise category — most people don\'t expect it.']
-];
+  ['🚙 Gas cars are the baseline — room to upgrade someday.','🔋 Hybrids are a solid middle ground — good choice.', '⚡ Electric vehicles produce ~70% less CO₂ here in CA.','🚚 Large trucks & SUVs emit up to 2× more than sedans.', '🚶 Not driving at all is the greenest option of all.'],
+  ['🏡 No flights means zero aviation emissions. Impressive.','✈️ One flight is manageable — direct routes help.','🗺️ 2–3 flights a year adds up fast. Offsets can help.','🌍 Frequent flier? Aviation is one of the hardest to cut.','🌐 7+ flights is a large footprint — worth exploring offsets.'],
+['🏰 Larger homes use more energy to run — but it can be greened.', '🏘️ Medium home, medium footprint — the details matter.', '🏚️ A smaller home is a lighter footprint — good.', '🏢 Apartments are among the most energy-efficient options.', '🏫 Shared or smaller spaces are naturally more efficient.'],
+ ['🙋 Solo living means solo energy use — efficiency habits matter.', '👫 Two people splitting energy costs is better than one.','👨‍👩‍👧 3–4 people sharing is a solid efficiency win.', '👨‍👩‍👧‍👦 Sharing a home splits the footprint — every person helps.'],
+ ['🔥 Fossil fuels are the biggest home footprint driver — but switchable.','⚡ Mixed sources means there\'s room to shift greener.','💨 Renewable energy is a game-changer for your home footprint.','☀️ Solar at home is as green as it gets. Seriously impressive.','🤷 Not sure? Worth checking your utility — it takes 2 minutes.'],
+ ['🥩 Red meat is the highest-emission food — but small cuts add up.', '🍗 A few meat-free days a week already makes a measurable difference.', '🐟 Chicken and fish emit far less than red meat.', '🥦 Vegetarian diets cut food emissions significantly — great choice.', '🌱 Vegan is one of the lowest-footprint diets on Earth.'],
+ ['✅ Almost zero food waste means almost zero hidden emissions.','👍 Rarely wasting food puts you ahead of most Americans.','🤔 Occasional waste happens — meal planning can help.','🗑️ Food waste is a hidden climate problem — and one of the easiest to fix.'],
+['🛍️ Fast fashion and frequent buys have a big hidden footprint.', '🛒 Moderate consumption — secondhand swaps can help here.', '♻️ Buying rarely is a real climate win — quality over quantity.', '🌿 Almost never buying new = a very low consumption footprint.']
 
-const SEC_NAMES = {transport:'Transportation',energy:'Home Energy',food:'Food',consumption:'Consumption',tech:'Technology'};
-const SEC_COLORS = {transport:'#5DCAA5',energy:'#EF9F27',food:'#7fff00',consumption:'#AFA9EC',tech:'#38bdf8'};
-const SEC_ICONS = {transport:'🚗',energy:'🏠',food:'🥦',consumption:'🛒',tech:'💻'};
-const SEC_Q = {transport:[0,1,2],energy:[3,4,5],food:[6,7],consumption:[8],tech:[9,10]};
+]
+const SEC_NAMES = {transport:'Transportation',energy:'Home Energy',food:'Food',consumption:'Consumption'};
+const SEC_COLORS = {transport:'#5DCAA5',energy:'#EF9F27',food:'#7fff00',consumption:'#AFA9EC'};
+const SEC_ICONS = {transport:'🚗',energy:'🏠',food:'🥦',consumption:'🛒'};
+const SEC_Q = {transport:[0,1,2,3],energy:[4,5,6],food:[7,8],consumption:[9]};
 
 const ALL_FACTS = {
   transport:[
     {tag:'Shocking fact',txt:'Transportation is the <strong>#1 source</strong> of US carbon emissions — responsible for 28% of all output. Yes, more than factories.',color:'green'},
-    {tag:'Real talk',txt:'The average American drives <strong>~13,500 miles a year</strong> — that\'s like driving halfway around the Earth.',color:'amber'},
+    {tag:'Real talk',txt:'A single round-trip flight from SF to NYC emits about <strong>1,000 lbs of CO₂</strong> per passenger. That\'s 3 months of an average car commute.',color:'amber'},
     {tag:'Good news',txt:'If every Bay Area commuter went car-free just <strong>one day a week</strong>, it would cut regional transport emissions by ~18%.',color:'teal'}
   ],
   energy:[
@@ -1297,18 +1275,13 @@ const ALL_FACTS = {
     {tag:'Shocking fact',txt:'The fashion industry produces <strong>10% of global carbon emissions</strong> — more than aviation and maritime shipping combined.',color:'red'},
     {tag:'Real talk',txt:'Making one cotton t-shirt uses about <strong>700 gallons of water</strong> and emits roughly 5.5 lbs of CO₂. That\'s before it ships to you.',color:'amber'},
     {tag:'Easy win',txt:'Buying one item secondhand instead of new saves an average of <strong>25 lbs of CO₂</strong> per purchase.',color:'teal'}
-  ],
-  tech:[
-    {tag:'Surprise',txt:'Data centers consume about <strong>1–2% of global electricity</strong> — and demand is doubling every four years as streaming and AI grow.',color:'green'},
-    {tag:'Real talk',txt:'Making a new smartphone emits <strong>~70 kg of CO₂</strong> — about the same as charging it every day for a decade. The phone is the problem, not the charger.',color:'amber'},
-    {tag:'Easy win',txt:'Keeping your phone for <strong>one extra year</strong> cuts its lifetime carbon footprint by roughly 30%. The greenest device is the one you already own.',color:'teal'}
   ]
 };
 
 const ADVICE = {
   transport:{icon:'🚗',bg:'rgba(93,202,165,.1)',border:'rgba(93,202,165,.2)',
     desc:'Transportation is your biggest lever. The good news: even small changes compound fast.',
-    steps:['Replace one car commute per week with biking, walking, or transit — a single shift makes a measurable annual difference.','Next vehicle: go electric or hybrid. EVs in California emit ~70% less CO₂ per mile than gas cars.','Use Waze Carpool or Scoop to find rideshare routes on your commute — saves money and emissions.','When driving is unavoidable, combine errands into single trips and avoid idling.']},
+    steps:['Replace one car commute per week with biking, walking, or transit — a single shift makes a measurable annual difference.','Next vehicle: go electric or hybrid. EVs in California emit ~70% less CO₂ per mile than gas cars.','For flights, choose direct routes (takeoff & landing burn the most fuel) and consider carbon offsets for unavoidable trips.','Use Waze Carpool or Scoop to find rideshare routes on your commute — saves money and emissions.']},
   energy:{icon:'🏠',bg:'rgba(239,159,39,.08)',border:'rgba(239,159,39,.2)',
     desc:'Your home energy footprint is highly fixable — many changes cost nothing.',
     steps:['Switch to PG&E\'s CleanChoice or MCE Clean Energy — takes 5 minutes online, same price, near-zero carbon electricity.','Set your thermostat 2°F lower in winter / higher in summer. Cuts HVAC emissions by 5–10% instantly.','Replace incandescent bulbs with LEDs — 75% less energy, lasts 25× longer, pays for itself in months.','Unplug chargers, power strips, and TVs when not in use. Standby power is 10% of your bill for zero benefit.']},
@@ -1317,10 +1290,7 @@ const ADVICE = {
     steps:['Try one plant-based day per week. "Meatless Monday" alone can cut food emissions by up to 15%.','When you do eat meat, choose chicken or fish — they produce 4–8× less emissions than beef.','Plan meals before shopping. The average American wastes 30% of purchased food — that waste has a massive carbon cost.','Shop local farmers markets when possible. Local food travels fewer miles and supports the regional food system.']},
   consumption:{icon:'🛒',bg:'rgba(175,169,236,.08)',border:'rgba(175,169,236,.2)',
     desc:'Every purchase is a carbon vote. Here\'s how to spend smarter.',
-    steps:['Use the 30-day rule: wait 30 days before buying non-essential items. Most impulse urges fade — and the planet wins.','Buy secondhand first — ThredUp, Depop, Facebook Marketplace. Often cheaper and carbon savings are real.','Repair before replacing. A $40 phone screen repair beats manufacturing an entirely new device.','Choose quality over quantity — one durable item purchased rarely has a much smaller footprint than frequent cheap replacements.']},
-  tech:{icon:'💻',bg:'rgba(56,189,248,.07)',border:'rgba(56,189,248,.2)',
-    desc:'Your digital habits have a real carbon cost — but a few shifts can significantly reduce it.',
-    steps:['Keep devices as long as possible. Extending a phone\'s life by one year cuts its total footprint by ~30%.','Download instead of streaming when you can — a downloaded file plays without constant server requests.','Turn off or unplug devices fully when not in use. Standby mode still draws power around the clock.','When you do upgrade, recycle or donate old devices through programs like Apple Trade-In, Best Buy, or local e-waste drives.']}
+    steps:['Use the 30-day rule: wait 30 days before buying non-essential items. Most impulse urges fade — and the planet wins.','Buy secondhand first — ThredUp, Depop, Facebook Marketplace. Often cheaper and carbon savings are real.','Repair before replacing. A $40 phone screen repair beats manufacturing an entirely new device.','Choose quality over quantity — one durable item purchased rarely has a much smaller footprint than frequent cheap replacements.']}
 };
 
 let cur = 0, ans = {}, submittedName = null;
@@ -1336,9 +1306,7 @@ function renderQ(i) {
   const sel = ans[i];
   const pct = Math.round((i / Q.length) * 100);
   document.getElementById('prog-fill').style.width = pct + '%';
-  const displayTotal = Q.length - 1;
-  const displayNum = Math.min(i + 1, displayTotal);
-  document.getElementById('prog-count').textContent = displayNum + ' / ' + displayTotal;
+  document.getElementById('prog-count').textContent = (i+1) + ' / ' + Q.length;
 
   const html = `
     <div class="animate-in">
@@ -1358,7 +1326,7 @@ function renderQ(i) {
       </div>
       <div class="q-nav">
         ${i > 0 ? `<button class="btn-back" onclick="goBack()">← Back</button>` : `<span></span>`}
-        <button class="btn-next${sel!==undefined?' active':''}" onclick="goNext()">${i === Q.length-2 ? 'Almost done →' : i === Q.length-1 ? 'Reveal my results →' : 'Next →'}</button>
+        <button class="btn-next${sel!==undefined?' active':''}" onclick="goNext()">${i < Q.length-1 ? 'Next →' : 'See my results →'}</button>
       </div>
     </div>`;
   document.getElementById('q-inner').innerHTML = html;
@@ -1443,8 +1411,8 @@ function checkEmail(inp) {
 }
 
 function scores() {
-  const s = {transport:0,energy:0,food:0,consumption:0,tech:0};
-  const hd = ans[4] !== undefined ? (Q[4].opts[ans[4]].d || 1) : 1;
+  const s = {transport:0,energy:0,food:0,consumption:0};
+  const hd = ans[5] !== undefined ? (Q[5].opts[ans[5]].d || 1) : 1;
   for (const [k, idxs] of Object.entries(SEC_Q)) {
     let t = 0;
     for (const i of idxs) { if (ans[i] !== undefined) t += Q[i].opts[ans[i]].w; }
@@ -1510,33 +1478,6 @@ function buildResults() {
   const vEl = document.getElementById('r-verdict');
   vEl.textContent = verdictText;
   vEl.className = 'results-verdict ' + verdictClass;
-
-  // Reflection reveal
-  const reflectionIdx = Q.length - 1;
-  const guessOpt = ans[reflectionIdx] !== undefined ? Q[reflectionIdx].opts[ans[reflectionIdx]] : null;
-  const guessedKey = guessOpt ? guessOpt.guess : null;
-  const wasCorrect = guessedKey === big || (guessedKey === 'tech' && big === 'tech');
-  let reflectionHtml = '';
-  if (guessedKey) {
-    const guessName = SEC_NAMES[guessedKey] || guessedKey;
-    const actualName = SEC_NAMES[big];
-    if (wasCorrect) {
-      reflectionHtml = `
-        <div style="background:rgba(127,255,0,.08);border:1px solid rgba(127,255,0,.25);border-radius:16px;padding:1.5rem;margin-bottom:2rem;text-align:center;">
-          <div style="font-size:28px;margin-bottom:8px;">🎯</div>
-          <div style="font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--green-neon);margin-bottom:6px;">You nailed it.</div>
-          <div style="font-size:14px;color:rgba(255,255,255,.65);line-height:1.6;">You guessed <strong style="color:white;">${guessName}</strong> — and that's exactly right. Most people underestimate this category. You've got good climate instincts.</div>
-        </div>`;
-    } else {
-      reflectionHtml = `
-        <div style="background:rgba(244,114,182,.06);border:1px solid rgba(244,114,182,.2);border-radius:16px;padding:1.5rem;margin-bottom:2rem;text-align:center;">
-          <div style="font-size:28px;margin-bottom:8px;">🤔</div>
-          <div style="font-family:var(--font-display);font-size:20px;font-weight:700;color:#f472b6;margin-bottom:6px;">Interesting guess.</div>
-          <div style="font-size:14px;color:rgba(255,255,255,.65);line-height:1.6;">You guessed <strong style="color:white;">${guessName}</strong>, but your actual biggest source is <strong style="color:var(--green-neon);">${actualName}</strong>. You're not alone — this surprises most people.</div>
-        </div>`;
-    }
-  }
-  document.getElementById('reflection-reveal').innerHTML = reflectionHtml;
 
   // Biggest source line
   document.getElementById('biggest-source-line').textContent = `Your biggest source: ${SEC_NAMES[big]}`;
@@ -1607,7 +1548,7 @@ function trackJoinClick() {
     const count = parseInt(localStorage.getItem(key) || '0') + 1;
     localStorage.setItem(key, String(count));
   } catch(e) {}
-  window.open('https://www.svyouthclimateaction.org/', '_blank');
+  window.open('https://www.svyouthclimateaction.org/join', '_blank');
 }
 
 function restart() {
