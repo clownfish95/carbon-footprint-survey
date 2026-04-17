@@ -131,7 +131,6 @@ body {
   padding: 0;
 }
 
-/* Progress bar - sticky top */
 .progress-strip {
   position: sticky;
   top: 0;
@@ -174,7 +173,6 @@ body {
   white-space: nowrap;
 }
 
-/* Question screen */
 .q-screen {
   min-height: calc(100vh - 53px);
   display: flex;
@@ -376,28 +374,6 @@ body {
   box-shadow: 0 0 24px rgba(127,255,0,.4);
 }
 
-/* Micro-reward popup */
-.micro-reward {
-  position: fixed;
-  bottom: 2rem;
-  left: 50%;
-  transform: translateX(-50%) translateY(80px);
-  background: rgba(30,30,30,.95);
-  border: 1px solid rgba(127,255,0,.3);
-  border-radius: 100px;
-  padding: 10px 20px;
-  font-size: 13px;
-  color: var(--green-neon);
-  pointer-events: none;
-  transition: transform .4s cubic-bezier(.34,1.56,.64,1);
-  z-index: 200;
-  white-space: nowrap;
-}
-
-.micro-reward.show {
-  transform: translateX(-50%) translateY(0);
-}
-
 /* ── EMAIL SCREEN ── */
 .email-screen {
   min-height: calc(100vh - 53px);
@@ -496,7 +472,6 @@ body {
   background: var(--black);
 }
 
-/* Hero */
 .results-hero {
   min-height: 100vh;
   display: flex;
@@ -616,7 +591,6 @@ body {
   animation: bounce 1.5s 2s infinite;
 }
 
-/* Results sections */
 .results-section {
   padding: 5rem 1.5rem;
   max-width: 700px;
@@ -641,7 +615,6 @@ body {
   line-height: 1.15;
 }
 
-/* Breakdown bars */
 .breakdown-list {
   display: flex;
   flex-direction: column;
@@ -690,7 +663,6 @@ body {
   width: 0;
 }
 
-/* Comparison section */
 .compare-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -778,7 +750,6 @@ body {
   color: rgba(255,255,255,.3);
 }
 
-/* Fun facts */
 .facts-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -824,7 +795,6 @@ body {
 
 .fact-text strong { color: var(--green-neon); }
 
-/* Advice */
 .advice-header {
   display: flex;
   align-items: center;
@@ -895,7 +865,6 @@ body {
   line-height: 1.6;
 }
 
-/* SVYCA join section */
 .svyca-section {
   background: rgba(127,255,0,.05);
   border: 1px solid rgba(127,255,0,.15);
@@ -986,7 +955,6 @@ body {
 }
 .btn-retake:hover { color: rgba(255,255,255,.5); }
 
-/* Animations */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
@@ -1011,7 +979,6 @@ body {
   animation: slideIn .4s ease forwards;
 }
 
-/* Divider */
 .section-divider {
   width: 40px;
   height: 2px;
@@ -1042,8 +1009,6 @@ body {
   <button class="splash-cta" onclick="startSurvey()">Find out in 60 seconds →</button>
   <span class="splash-sub">12 questions · totally free · eye-opening</span>
 </div>
-
-
 
 <!-- SURVEY -->
 <div id="survey">
@@ -1112,19 +1077,16 @@ body {
 
   <div class="section-divider"></div>
 
-  <!-- Reflection reveal -->
   <div class="results-section" style="padding-bottom:0;">
     <div id="reflection-reveal"></div>
   </div>
 
-  <!-- Breakdown -->
   <div class="results-section">
     <div class="section-label">Where it's coming from</div>
     <div class="section-headline" id="biggest-source-line">Your biggest source</div>
     <div class="breakdown-list" id="breakdown-list"></div>
   </div>
 
-  <!-- Compare -->
   <div class="results-section" style="padding-top:0">
     <div class="section-label">How you stack up</div>
     <div class="section-headline">You vs. the world</div>
@@ -1152,21 +1114,18 @@ body {
     </div>
   </div>
 
-  <!-- Fun facts -->
   <div class="results-section" style="padding-top:0">
     <div class="section-label">Did you know?</div>
     <div class="section-headline">Facts that'll change how you see your day</div>
     <div class="facts-grid" id="facts-grid"></div>
   </div>
 
-  <!-- Advice -->
   <div class="results-section" style="padding-top:0">
     <div class="section-label">Your personalized plan</div>
     <div class="section-headline" id="advice-headline">Here's what you can actually do</div>
     <div id="advice-content"></div>
   </div>
 
-  <!-- SVYCA -->
   <div class="svyca-section">
     <div class="svyca-logo">
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -1248,15 +1207,15 @@ const Q = [
 const OPTION_MSGS = [
   ['Room for improvement!','🚕 Sharing rides cuts emissions and costs — smart.','🚌 Public transit is one of the best climate choices you can make.','🚲 Zero emissions and great exercise — respect.','🏠 No commute = no commute emissions. That counts.'],
   ['📍 Under 10 miles a week — your driving footprint is minimal.','🛣️ Reasonable range — small tweaks could make a big dent.','🗺️ That adds up over a year — worth thinking about.','⛽ High mileage is the #1 driver of transport emissions.','🛞 300+ miles weekly is significant — but fixable.'],
-  ['🚙 Gas cars are the baseline — room to upgrade someday.','🔋 Hybrids are a solid middle ground — good choice.', '⚡ Electric vehicles produce ~70% less CO₂ here in CA.','🚚 Large trucks & SUVs emit up to 2× more than sedans.', '🚶 Not driving at all is the greenest option of all.'],
-['🏰 Larger homes use more energy to run — but it can be greened.', '🏘️ Medium home, medium footprint — the details matter.', '🏚️ A smaller home is a lighter footprint — good.', '🏢 Apartments are among the most energy-efficient options.', '🏫 Shared or smaller spaces are naturally more efficient.'],
- ['🙋 Solo living means solo energy use — efficiency habits matter.', '👫 Two people splitting energy costs is better than one.','👨‍👩‍👧 3–4 people sharing is a solid efficiency win.', '👨‍👩‍👧‍👦 Sharing a home splits the footprint — every person helps.'],
- ['🔥 Fossil fuels are the biggest home footprint driver — but switchable.','⚡ Mixed sources means there\'s room to shift greener.','💨 Renewable energy is a game-changer for your home footprint.','☀️ Solar at home is as green as it gets. Seriously impressive.','🤷 Not sure? Worth checking your utility — it takes 2 minutes.'],
- ['🥩 Red meat is the highest-emission food — but small cuts add up.', '🍗 A few meat-free days a week already makes a measurable difference.', '🐟 Chicken and fish emit far less than red meat.', '🥦 Vegetarian diets cut food emissions significantly — great choice.', '🌱 Vegan is one of the lowest-footprint diets on Earth.'],
- ['🗑️ Food waste is a hidden climate problem — and one of the easiest to fix.', '🤔 Occasional waste happens — meal planning can help.','👍 Rarely wasting food puts you ahead of most Americans.','✅ Almost zero food waste means almost zero hidden emissions.'],
-['🛍️ Fast fashion and frequent buys have a big hidden footprint.', '🛒 Moderate consumption — secondhand swaps can help here.', '♻️ Buying rarely is a real climate win — quality over quantity.', '🌿 Almost never buying new = a very low consumption footprint.'],
-['📵 Under an hour a day — your digital footprint is minimal.','📱 1–3 hours is typical — but it adds up across millions of users.','💻 3–6 hours daily means data centers are working hard for you.','📺 6+ hours is significant — every stream requests server power around the clock.'],
-  ['♻️ Only replacing when broken is the greenest device habit possible.','⏳ Every 2–3 years is about average — extending even one cycle helps.', '🔧 4–5 years is a solid lifespan — makes a real difference.','🔄 Annual upgrades mean near-constant manufacturing emissions — the biggest device footprint.'],
+  ['🚙 Gas cars are the baseline — room to upgrade someday.','🔋 Hybrids are a solid middle ground — good choice.','⚡ Electric vehicles produce ~70% less CO₂ here in CA.','🚚 Large trucks & SUVs emit up to 2× more than sedans.','🚶 Not driving at all is the greenest option of all.'],
+  ['🏰 Larger homes use more energy to run — but it can be greened.','🏘️ Medium home, medium footprint — the details matter.','🏚️ A smaller home is a lighter footprint — good.','🏢 Apartments are among the most energy-efficient options.','🏫 Shared or smaller spaces are naturally more efficient.'],
+  ['🙋 Solo living means solo energy use — efficiency habits matter.','👫 Two people splitting energy costs is better than one.','👨‍👩‍👧 3–4 people sharing is a solid efficiency win.','👨‍👩‍👧‍👦 Sharing a home splits the footprint — every person helps.'],
+  ['🔥 Fossil fuels are the biggest home footprint driver — but switchable.','⚡ Mixed sources means there\'s room to shift greener.','💨 Renewable energy is a game-changer for your home footprint.','☀️ Solar at home is as green as it gets. Seriously impressive.','🤷 Not sure? Worth checking your utility — it takes 2 minutes.'],
+  ['🥩 Red meat is the highest-emission food — but small cuts add up.','🍗 A few meat-free days a week already makes a measurable difference.','🐟 Chicken and fish emit far less than red meat.','🥦 Vegetarian diets cut food emissions significantly — great choice.','🌱 Vegan is one of the lowest-footprint diets on Earth.'],
+  ['🗑️ Food waste is a hidden climate problem — and one of the easiest to fix.','🤔 Occasional waste happens — meal planning can help.','👍 Rarely wasting food puts you ahead of most Americans.','✅ Almost zero food waste means almost zero hidden emissions.'],
+  ['🛍️ Fast fashion and frequent buys have a big hidden footprint.','🛒 Moderate consumption — secondhand swaps can help here.','♻️ Buying rarely is a real climate win — quality over quantity.','🌿 Almost never buying new = a very low consumption footprint.'],
+  ['📵 Under an hour a day — your digital footprint is minimal.','📱 1–3 hours is typical — but it adds up across millions of users.','💻 3–6 hours daily means data centers are working hard for you.','📺 6+ hours is significant — every stream requests server power around the clock.'],
+  ['♻️ Only replacing when broken is the greenest device habit possible.','⏳ Every 2–3 years is about average — extending even one cycle helps.','🔧 4–5 years is a solid lifespan — makes a real difference.','🔄 Annual upgrades mean near-constant manufacturing emissions — the biggest device footprint.'],
   ['🚗 Let\'s see if transportation matches your guess…','🏠 Home energy is trickier to see — curious to find out?','🥦 Food is often underestimated. Let\'s check!','🛍️ Consumption has hidden emissions most people miss.','💻 Tech is the surprise category — most people don\'t expect it.']
 ];
 
@@ -1311,7 +1270,11 @@ const ADVICE = {
     steps:['Keep devices as long as possible. Extending a phone\'s life by one year cuts its total footprint by ~30%.','Download instead of streaming when you can — a downloaded file plays without constant server requests.','Turn off or unplug devices fully when not in use. Standby mode still draws power around the clock.','When you do upgrade, recycle or donate old devices through programs like Apple Trade-In, Best Buy, or local e-waste drives.']}
 };
 
-let cur = 0, ans = {}, submittedName = null;
+let cur = 0, ans = {};
+
+// ── PERSISTENT STORAGE KEY (must match admin dashboard) ──
+const STORAGE_KEY = 'svyca_responses';
+const JOINS_KEY = 'svyca_join_clicks';
 
 function startSurvey() {
   document.getElementById('splash').style.display = 'none';
@@ -1324,9 +1287,7 @@ function renderQ(i) {
   const sel = ans[i];
   const pct = Math.round((i / Q.length) * 100);
   document.getElementById('prog-fill').style.width = pct + '%';
-  const displayTotal = Q.length;
-  const displayNum = Math.min(i + 1, displayTotal);
-  document.getElementById('prog-count').textContent = displayNum + ' / ' + displayTotal;
+  document.getElementById('prog-count').textContent = (Math.min(i+1, Q.length)) + ' / ' + Q.length;
 
   const html = `
     <div class="animate-in">
@@ -1351,7 +1312,6 @@ function renderQ(i) {
     </div>`;
   document.getElementById('q-inner').innerHTML = html;
 
-  // If question already answered, show its feedback immediately
   if (sel !== undefined) {
     const msg = (OPTION_MSGS[i] || [])[sel] || '';
     if (msg) {
@@ -1365,10 +1325,7 @@ function renderQ(i) {
 }
 
 function pick(qi, oi) {
-  const prev = ans[qi];
   ans[qi] = oi;
-
-  // Update button states without full re-render
   const btns = document.querySelectorAll('.opt-btn');
   btns.forEach((btn, idx) => {
     btn.classList.toggle('selected', idx === oi);
@@ -1379,35 +1336,19 @@ function pick(qi, oi) {
       chk.innerHTML = '';
     }
   });
-
-  // Activate Next button
   const nextBtn = document.querySelector('.btn-next');
   if (nextBtn) nextBtn.classList.add('active');
-
-  // Show inline personalized message
   const msg = (OPTION_MSGS[qi] || [])[oi] || '✅ Got it!';
   let feedback = document.getElementById('inline-feedback');
   if (!feedback) {
     feedback = document.createElement('div');
     feedback.id = 'inline-feedback';
-    feedback.style.cssText = `
-      margin-top: 14px;
-      padding: 11px 16px;
-      background: rgba(127,255,0,.07);
-      border: 1px solid rgba(127,255,0,.2);
-      border-radius: 10px;
-      font-size: 13px;
-      color: rgba(255,255,255,.75);
-      line-height: 1.5;
-      opacity: 0;
-      transition: opacity .3s ease;
-    `;
+    feedback.style.cssText = `margin-top:14px;padding:11px 16px;background:rgba(127,255,0,.07);border:1px solid rgba(127,255,0,.2);border-radius:10px;font-size:13px;color:rgba(255,255,255,.75);line-height:1.5;opacity:0;transition:opacity .3s ease;`;
     document.querySelector('.options-grid').after(feedback);
   }
   feedback.textContent = msg;
   requestAnimationFrame(() => { feedback.style.opacity = '1'; });
 }
-
 
 function goNext() {
   if (ans[cur] === undefined) return;
@@ -1443,27 +1384,66 @@ function scores() {
 }
 
 function totalScore(s) { return Object.values(s).reduce((a,b) => a+b, 0); }
-
 function biggestKey(s) { return Object.entries(s).sort((a,b) => b[1]-a[1])[0][0]; }
 
 function submitAndShow() {
   const email = document.getElementById('femail').value.trim();
-  if (email) saveResponse(email);
+  saveResponse(email);
   showResults();
 }
 
-function saveResponse(email) {
+// ── FIXED: now saves to persistent window.storage instead of localStorage ──
+async function saveResponse(email) {
   const sc = scores();
   const t = totalScore(sc);
   const big = biggestKey(sc);
-  const key = 'svyca_responses';
-  let existing = [];
-  try { existing = JSON.parse(localStorage.getItem(key) || '[]'); } catch(e) {}
-  existing.push({ email, score: t, biggest: big, scores: sc, answers: ans, ts: new Date().toISOString() });
-  try { localStorage.setItem(key, JSON.stringify(existing)); } catch(e) {}
+  const record = {
+    email: email || '',
+    score: t,
+    biggest: big,
+    scores: { transport: sc.transport, energy: sc.energy, food: sc.food, consumption: sc.consumption },
+    ts: new Date().toISOString()
+  };
+  try {
+    let existing = [];
+    try {
+      const result = await window.storage.get(STORAGE_KEY);
+      if (result && result.value) existing = JSON.parse(result.value);
+    } catch(e) { existing = []; }
+    existing.push(record);
+    await window.storage.set(STORAGE_KEY, JSON.stringify(existing));
+  } catch(e) {
+    // Fallback to localStorage if storage API unavailable (e.g. standalone file)
+    try {
+      const existing = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+      existing.push(record);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(existing));
+    } catch(e2) {}
+  }
+}
+
+// ── FIXED: join clicks also go to persistent storage ──
+async function trackJoinClick() {
+  try {
+    let count = 0;
+    try {
+      const result = await window.storage.get(JOINS_KEY);
+      if (result && result.value) count = parseInt(result.value) || 0;
+    } catch(e) {}
+    await window.storage.set(JOINS_KEY, String(count + 1));
+  } catch(e) {
+    try {
+      const c = parseInt(localStorage.getItem(JOINS_KEY) || '0') + 1;
+      localStorage.setItem(JOINS_KEY, String(c));
+    } catch(e2) {}
+  }
+  window.open('https://www.svyouthclimateaction.org/', '_blank');
 }
 
 function showResults() {
+  // Save with no email if user skipped
+  const emailVal = document.getElementById('femail') ? document.getElementById('femail').value.trim() : '';
+  if (!emailVal) saveResponse('');
   document.getElementById('email-gate').style.display = 'none';
   document.getElementById('results-page').style.display = 'block';
   window.scrollTo(0,0);
@@ -1480,7 +1460,6 @@ function buildResults() {
   document.getElementById('r-pill-you').textContent = t;
   document.getElementById('cg-you').textContent = t;
 
-  // Verdict
   let verdictClass, verdictText;
   if (t < 30) {
     verdictClass = 'verdict-good';
@@ -1499,7 +1478,6 @@ function buildResults() {
   vEl.textContent = verdictText;
   vEl.className = 'results-verdict ' + verdictClass;
 
-  // Reflection reveal
   const reflectionIdx = Q.length - 1;
   const guessOpt = ans[reflectionIdx] !== undefined ? Q[reflectionIdx].opts[ans[reflectionIdx]] : null;
   const guessedKey = guessOpt ? guessOpt.guess : null;
@@ -1509,27 +1487,15 @@ function buildResults() {
     const guessName = SEC_NAMES[guessedKey] || guessedKey;
     const actualName = SEC_NAMES[big];
     if (wasCorrect) {
-      reflectionHtml = `
-        <div style="background:rgba(127,255,0,.08);border:1px solid rgba(127,255,0,.25);border-radius:16px;padding:1.5rem;margin-bottom:2rem;text-align:center;">
-          <div style="font-size:28px;margin-bottom:8px;">🎯</div>
-          <div style="font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--green-neon);margin-bottom:6px;">You nailed it.</div>
-          <div style="font-size:14px;color:rgba(255,255,255,.65);line-height:1.6;">You guessed <strong style="color:white;">${guessName}</strong> — and that's exactly right. Most people underestimate this category. You've got good climate instincts.</div>
-        </div>`;
+      reflectionHtml = `<div style="background:rgba(127,255,0,.08);border:1px solid rgba(127,255,0,.25);border-radius:16px;padding:1.5rem;margin-bottom:2rem;text-align:center;"><div style="font-size:28px;margin-bottom:8px;">🎯</div><div style="font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--green-neon);margin-bottom:6px;">You nailed it.</div><div style="font-size:14px;color:rgba(255,255,255,.65);line-height:1.6;">You guessed <strong style="color:white;">${guessName}</strong> — and that's exactly right. Most people underestimate this category. You've got good climate instincts.</div></div>`;
     } else {
-      reflectionHtml = `
-        <div style="background:rgba(244,114,182,.06);border:1px solid rgba(244,114,182,.2);border-radius:16px;padding:1.5rem;margin-bottom:2rem;text-align:center;">
-          <div style="font-size:28px;margin-bottom:8px;">🤔</div>
-          <div style="font-family:var(--font-display);font-size:20px;font-weight:700;color:#f472b6;margin-bottom:6px;">Interesting guess.</div>
-          <div style="font-size:14px;color:rgba(255,255,255,.65);line-height:1.6;">You guessed <strong style="color:white;">${guessName}</strong>, but your actual biggest source is <strong style="color:var(--green-neon);">${actualName}</strong>. You're not alone — this surprises most people.</div>
-        </div>`;
+      reflectionHtml = `<div style="background:rgba(244,114,182,.06);border:1px solid rgba(244,114,182,.2);border-radius:16px;padding:1.5rem;margin-bottom:2rem;text-align:center;"><div style="font-size:28px;margin-bottom:8px;">🤔</div><div style="font-family:var(--font-display);font-size:20px;font-weight:700;color:#f472b6;margin-bottom:6px;">Interesting guess.</div><div style="font-size:14px;color:rgba(255,255,255,.65);line-height:1.6;">You guessed <strong style="color:white;">${guessName}</strong>, but your actual biggest source is <strong style="color:var(--green-neon);">${actualName}</strong>. You're not alone — this surprises most people.</div></div>`;
     }
   }
   document.getElementById('reflection-reveal').innerHTML = reflectionHtml;
 
-  // Biggest source line
   document.getElementById('biggest-source-line').textContent = `Your biggest source: ${SEC_NAMES[big]}`;
 
-  // Breakdown bars
   const maxes = {transport:90,energy:45,food:28,consumption:12};
   const breakHtml = Object.entries(sc).map(([k,v]) => `
     <div class="breakdown-item">
@@ -1550,7 +1516,6 @@ function buildResults() {
     });
   }, 300);
 
-  // Percentile vs US (0=cleanest, 100=dirtiest)
   const pct = Math.min(95, Math.max(5, Math.round((t / 130) * 100)));
   setTimeout(() => {
     document.getElementById('pct-fill').style.width = pct + '%';
@@ -1565,19 +1530,16 @@ function buildResults() {
   else pctLabel = `Your footprint is in the top 25% highest in the US — big room to improve.`;
   document.getElementById('pct-label').textContent = pctLabel;
 
-  // Fun facts
   const factsData = ALL_FACTS[big];
-  const factsHtml = factsData.map(f => `
+  document.getElementById('facts-grid').innerHTML = factsData.map(f => `
     <div class="fact-card ${f.color}">
       <div class="fact-tag">${f.tag}</div>
       <p class="fact-text">${f.txt}</p>
     </div>`).join('');
-  document.getElementById('facts-grid').innerHTML = factsHtml;
 
-  // Advice
   const adv = ADVICE[big];
   document.getElementById('advice-headline').textContent = `Cut your ${SEC_NAMES[big].toLowerCase()} footprint`;
-  const advHtml = `
+  document.getElementById('advice-content').innerHTML = `
     <div class="advice-header">
       <div class="advice-icon-wrap" style="background:${adv.bg};border:1px solid ${adv.border};">${adv.icon}</div>
       <div class="advice-title">${SEC_NAMES[big]}</div>
@@ -1586,16 +1548,6 @@ function buildResults() {
     <div class="steps-list">
       ${adv.steps.map((s,i) => `<div class="step-item"><span class="step-num">${i+1}</span><span class="step-text">${s}</span></div>`).join('')}
     </div>`;
-  document.getElementById('advice-content').innerHTML = advHtml;
-}
-
-function trackJoinClick() {
-  try {
-    const key = 'svyca_join_clicks';
-    const count = parseInt(localStorage.getItem(key) || '0') + 1;
-    localStorage.setItem(key, String(count));
-  } catch(e) {}
-  window.open('https://www.svyouthclimateaction.org/', '_blank');
 }
 
 function restart() {
