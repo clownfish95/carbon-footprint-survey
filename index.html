@@ -22,1015 +22,179 @@
   --font-display: 'Fraunces', serif;
   --font-body: 'Plus Jakarta Sans', sans-serif;
 }
-
 * { box-sizing: border-box; margin: 0; padding: 0; }
-
 html { scroll-behavior: smooth; }
-
-body {
-  font-family: var(--font-body);
-  background: var(--black);
-  color: var(--white);
-  min-height: 100vh;
-  overflow-x: hidden;
-}
-
-/* ── SPLASH SCREEN ── */
-#splash {
-  position: fixed; inset: 0;
-  background: var(--black);
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  z-index: 100;
-  padding: 2rem;
-  text-align: center;
-}
-
-.splash-eyebrow {
-  font-family: var(--font-body);
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: .15em;
-  text-transform: uppercase;
-  color: var(--green-neon);
-  margin-bottom: 1.5rem;
-  opacity: 0;
-  animation: fadeUp .6s .2s forwards;
-}
-
-.splash-headline {
-  font-family: var(--font-display);
-  font-size: clamp(42px, 10vw, 88px);
-  font-weight: 800;
-  line-height: .95;
-  color: var(--white);
-  margin-bottom: 1.5rem;
-  opacity: 0;
-  animation: fadeUp .7s .4s forwards;
-}
-
-.splash-headline em {
-  color: var(--green-neon);
-  font-style: normal;
-  display: block;
-}
-
-.splash-stat {
-  background: rgba(127,255,0,.1);
-  border: 1px solid rgba(127,255,0,.3);
-  border-radius: 100px;
-  padding: 8px 20px;
-  font-size: 14px;
-  color: rgba(255,255,255,.8);
-  margin-bottom: 2.5rem;
-  opacity: 0;
-  animation: fadeUp .6s .6s forwards;
-}
-
+body { font-family: var(--font-body); background: var(--black); color: var(--white); min-height: 100vh; overflow-x: hidden; }
+#splash { position: fixed; inset: 0; background: var(--black); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 100; padding: 2rem; text-align: center; }
+.splash-eyebrow { font-family: var(--font-body); font-size: 11px; font-weight: 500; letter-spacing: .15em; text-transform: uppercase; color: var(--green-neon); margin-bottom: 1.5rem; opacity: 0; animation: fadeUp .6s .2s forwards; }
+.splash-headline { font-family: var(--font-display); font-size: clamp(42px, 10vw, 88px); font-weight: 800; line-height: .95; color: var(--white); margin-bottom: 1.5rem; opacity: 0; animation: fadeUp .7s .4s forwards; }
+.splash-headline em { color: var(--green-neon); font-style: normal; display: block; }
+.splash-stat { background: rgba(127,255,0,.1); border: 1px solid rgba(127,255,0,.3); border-radius: 100px; padding: 8px 20px; font-size: 14px; color: rgba(255,255,255,.8); margin-bottom: 2.5rem; opacity: 0; animation: fadeUp .6s .6s forwards; }
 .splash-stat strong { color: var(--green-neon); }
-
-.splash-cta {
-  font-family: var(--font-display);
-  font-size: 15px;
-  font-weight: 700;
-  letter-spacing: .05em;
-  color: var(--black);
-  background: var(--green-neon);
-  border: none;
-  border-radius: 100px;
-  padding: 14px 36px;
-  cursor: pointer;
-  transition: transform .15s, box-shadow .15s;
-  opacity: 0;
-  animation: fadeUp .6s .8s forwards;
-}
+.splash-cta { font-family: var(--font-display); font-size: 15px; font-weight: 700; letter-spacing: .05em; color: var(--black); background: var(--green-neon); border: none; border-radius: 100px; padding: 14px 36px; cursor: pointer; transition: transform .15s, box-shadow .15s; opacity: 0; animation: fadeUp .6s .8s forwards; }
 .splash-cta:hover { transform: scale(1.04); box-shadow: 0 0 40px rgba(127,255,0,.4); }
 .splash-cta:active { transform: scale(.98); }
-
-.splash-sub {
-  font-size: 12px;
-  color: rgba(255,255,255,.35);
-  margin-top: 12px;
-  opacity: 0;
-  animation: fadeUp .6s 1s forwards;
-}
-
-.splash-orb {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(80px);
-  pointer-events: none;
-}
+.splash-sub { font-size: 12px; color: rgba(255,255,255,.35); margin-top: 12px; opacity: 0; animation: fadeUp .6s 1s forwards; }
+.splash-orb { position: absolute; border-radius: 50%; filter: blur(80px); pointer-events: none; }
 .orb1 { width: 400px; height: 400px; background: rgba(76,175,80,.15); top: -100px; right: -100px; }
 .orb2 { width: 300px; height: 300px; background: rgba(127,255,0,.08); bottom: -80px; left: -80px; }
-
-/* ── MAIN SURVEY ── */
-#survey {
-  display: none;
-  min-height: 100vh;
-  padding: 0;
-}
-
-.progress-strip {
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  background: rgba(13,13,13,.9);
-  backdrop-filter: blur(12px);
-  padding: 12px 24px;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  border-bottom: 1px solid rgba(255,255,255,.06);
-}
-
-.progress-logo {
-  font-family: var(--font-display);
-  font-size: 14px;
-  font-weight: 800;
-  color: var(--green-neon);
-  white-space: nowrap;
-}
-
-.progress-track {
-  flex: 1;
-  height: 4px;
-  background: rgba(255,255,255,.1);
-  border-radius: 100px;
-  overflow: hidden;
-}
-
-.progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--green-mid), var(--green-neon));
-  border-radius: 100px;
-  transition: width .5s cubic-bezier(.4,0,.2,1);
-}
-
-.progress-count {
-  font-size: 12px;
-  color: rgba(255,255,255,.4);
-  white-space: nowrap;
-}
-
-.q-screen {
-  min-height: calc(100vh - 53px);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 3rem 1.5rem;
-  position: relative;
-}
-
-.q-screen::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse at 50% 0%, rgba(76,175,80,.08) 0%, transparent 60%);
-  pointer-events: none;
-}
-
-.q-inner {
-  width: 100%;
-  max-width: 600px;
-}
-
-.q-section-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  padding: 4px 12px;
-  border-radius: 100px;
-  margin-bottom: 20px;
-  border: 1px solid;
-}
-
+#survey { display: none; min-height: 100vh; padding: 0; }
+.progress-strip { position: sticky; top: 0; z-index: 50; background: rgba(13,13,13,.9); backdrop-filter: blur(12px); padding: 12px 24px; display: flex; align-items: center; gap: 16px; border-bottom: 1px solid rgba(255,255,255,.06); }
+.progress-logo { font-family: var(--font-display); font-size: 14px; font-weight: 800; color: var(--green-neon); white-space: nowrap; }
+.progress-track { flex: 1; height: 4px; background: rgba(255,255,255,.1); border-radius: 100px; overflow: hidden; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, var(--green-mid), var(--green-neon)); border-radius: 100px; transition: width .5s cubic-bezier(.4,0,.2,1); }
+.progress-count { font-size: 12px; color: rgba(255,255,255,.4); white-space: nowrap; }
+.q-screen { min-height: calc(100vh - 53px); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 3rem 1.5rem; position: relative; }
+.q-screen::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 0%, rgba(76,175,80,.08) 0%, transparent 60%); pointer-events: none; }
+.q-inner { width: 100%; max-width: 600px; }
+.q-section-tag { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; padding: 4px 12px; border-radius: 100px; margin-bottom: 20px; border: 1px solid; }
 .tag-t { color: #5DCAA5; border-color: rgba(93,202,165,.3); background: rgba(93,202,165,.08); }
 .tag-e { color: #EF9F27; border-color: rgba(239,159,39,.3); background: rgba(239,159,39,.08); }
 .tag-f { color: var(--green-neon); border-color: rgba(127,255,0,.3); background: rgba(127,255,0,.06); }
 .tag-c { color: #AFA9EC; border-color: rgba(175,169,236,.3); background: rgba(175,169,236,.08); }
 .tag-d { color: #38bdf8; border-color: rgba(56,189,248,.3); background: rgba(56,189,248,.07); }
 .tag-r { color: #f472b6; border-color: rgba(244,114,182,.3); background: rgba(244,114,182,.07); }
-
-.q-number {
-  font-family: var(--font-display);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: .1em;
-  color: rgba(255,255,255,.25);
-  margin-bottom: 10px;
-}
-
-.q-text {
-  font-family: var(--font-display);
-  font-size: clamp(22px, 5vw, 32px);
-  font-weight: 700;
-  color: var(--white);
-  line-height: 1.2;
-  margin-bottom: 8px;
-}
-
-.q-why {
-  font-size: 13px;
-  color: rgba(255,255,255,.4);
-  margin-bottom: 2rem;
-  line-height: 1.5;
-  padding-left: 12px;
-  border-left: 2px solid rgba(127,255,0,.3);
-}
-
-.options-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 2rem;
-}
-
-.opt-btn {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 14px 18px;
-  background: rgba(255,255,255,.04);
-  border: 1px solid rgba(255,255,255,.1);
-  border-radius: 14px;
-  cursor: pointer;
-  font-family: var(--font-body);
-  font-size: 15px;
-  color: rgba(255,255,255,.85);
-  text-align: left;
-  transition: all .2s ease;
-  width: 100%;
-  position: relative;
-  overflow: hidden;
-}
-
-.opt-btn::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(127,255,0,.06), transparent);
-  opacity: 0;
-  transition: opacity .2s;
-}
-
-.opt-btn:hover {
-  border-color: rgba(127,255,0,.4);
-  background: rgba(127,255,0,.06);
-  transform: translateX(4px);
-  color: var(--white);
-}
-
+.q-number { font-family: var(--font-display); font-size: 11px; font-weight: 700; letter-spacing: .1em; color: rgba(255,255,255,.25); margin-bottom: 10px; }
+.q-text { font-family: var(--font-display); font-size: clamp(22px, 5vw, 32px); font-weight: 700; color: var(--white); line-height: 1.2; margin-bottom: 8px; }
+.q-why { font-size: 13px; color: rgba(255,255,255,.4); margin-bottom: 2rem; line-height: 1.5; padding-left: 12px; border-left: 2px solid rgba(127,255,0,.3); }
+.options-grid { display: flex; flex-direction: column; gap: 10px; margin-bottom: 2rem; }
+.opt-btn { display: flex; align-items: center; gap: 14px; padding: 14px 18px; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.1); border-radius: 14px; cursor: pointer; font-family: var(--font-body); font-size: 15px; color: rgba(255,255,255,.85); text-align: left; transition: all .2s ease; width: 100%; position: relative; overflow: hidden; }
+.opt-btn::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(127,255,0,.06), transparent); opacity: 0; transition: opacity .2s; }
+.opt-btn:hover { border-color: rgba(127,255,0,.4); background: rgba(127,255,0,.06); transform: translateX(4px); color: var(--white); }
 .opt-btn:hover::before { opacity: 1; }
-
-.opt-btn.selected {
-  border-color: var(--green-neon);
-  background: rgba(127,255,0,.1);
-  color: var(--white);
-  transform: translateX(4px);
-}
-
+.opt-btn.selected { border-color: var(--green-neon); background: rgba(127,255,0,.1); color: var(--white); transform: translateX(4px); }
 .opt-btn.selected::before { opacity: 1; }
-
-.opt-emoji {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
-  background: rgba(255,255,255,.07);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-  flex-shrink: 0;
-  transition: all .2s;
-}
-
-.opt-btn.selected .opt-emoji {
-  background: rgba(127,255,0,.2);
-}
-
+.opt-emoji { width: 36px; height: 36px; border-radius: 10px; background: rgba(255,255,255,.07); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; transition: all .2s; }
+.opt-btn.selected .opt-emoji { background: rgba(127,255,0,.2); }
 .opt-label { flex: 1; font-size: 15px; }
-
-.opt-check {
-  width: 22px; height: 22px;
-  border-radius: 50%;
-  border: 1.5px solid rgba(255,255,255,.2);
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-  transition: all .2s;
-}
-
-.opt-btn.selected .opt-check {
-  background: var(--green-neon);
-  border-color: var(--green-neon);
-}
-
-.q-nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.btn-back {
-  font-family: var(--font-body);
-  font-size: 14px;
-  color: rgba(255,255,255,.35);
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 8px 0;
-  transition: color .15s;
-}
+.opt-check { width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,.2); display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all .2s; }
+.opt-btn.selected .opt-check { background: var(--green-neon); border-color: var(--green-neon); }
+.q-nav { display: flex; align-items: center; justify-content: space-between; }
+.btn-back { font-family: var(--font-body); font-size: 14px; color: rgba(255,255,255,.35); background: none; border: none; cursor: pointer; padding: 8px 0; transition: color .15s; }
 .btn-back:hover { color: rgba(255,255,255,.7); }
-
-.btn-next {
-  font-family: var(--font-display);
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--black);
-  background: var(--green-neon);
-  border: none;
-  border-radius: 100px;
-  padding: 12px 28px;
-  cursor: pointer;
-  transition: all .2s;
-  opacity: .25;
-  pointer-events: none;
-  letter-spacing: .02em;
-}
-
-.btn-next.active {
-  opacity: 1;
-  pointer-events: all;
-}
-
-.btn-next.active:hover {
-  transform: scale(1.04);
-  box-shadow: 0 0 24px rgba(127,255,0,.4);
-}
-
-/* ── EMAIL SCREEN ── */
-.email-screen {
-  min-height: calc(100vh - 53px);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 3rem 1.5rem;
-  text-align: center;
-}
-
-.email-inner {
-  max-width: 480px;
-  width: 100%;
-}
-
-.email-icon {
-  width: 72px; height: 72px;
-  border-radius: 20px;
-  background: rgba(127,255,0,.1);
-  border: 1px solid rgba(127,255,0,.3);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 32px;
-  margin: 0 auto 1.5rem;
-}
-
-.email-headline {
-  font-family: var(--font-display);
-  font-size: 30px;
-  font-weight: 800;
-  color: var(--white);
-  margin-bottom: 10px;
-  line-height: 1.1;
-}
-
-.email-sub {
-  font-size: 14px;
-  color: rgba(255,255,255,.5);
-  margin-bottom: 2rem;
-  line-height: 1.6;
-}
-
-.email-fields {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 14px;
-}
-
-.email-fields input {
-  width: 100%;
-  padding: 13px 16px;
-  font-family: var(--font-body);
-  font-size: 15px;
-  background: rgba(255,255,255,.05);
-  border: 1px solid rgba(255,255,255,.12);
-  border-radius: 12px;
-  color: var(--white);
-  outline: none;
-  transition: border-color .2s;
-}
-
+.btn-next { font-family: var(--font-display); font-size: 14px; font-weight: 700; color: var(--black); background: var(--green-neon); border: none; border-radius: 100px; padding: 12px 28px; cursor: pointer; transition: all .2s; opacity: .25; pointer-events: none; letter-spacing: .02em; }
+.btn-next.active { opacity: 1; pointer-events: all; }
+.btn-next.active:hover { transform: scale(1.04); box-shadow: 0 0 24px rgba(127,255,0,.4); }
+.email-screen { min-height: calc(100vh - 53px); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 3rem 1.5rem; text-align: center; }
+.email-inner { max-width: 480px; width: 100%; }
+.email-icon { width: 72px; height: 72px; border-radius: 20px; background: rgba(127,255,0,.1); border: 1px solid rgba(127,255,0,.3); display: flex; align-items: center; justify-content: center; font-size: 32px; margin: 0 auto 1.5rem; }
+.email-headline { font-family: var(--font-display); font-size: 30px; font-weight: 800; color: var(--white); margin-bottom: 10px; line-height: 1.1; }
+.email-sub { font-size: 14px; color: rgba(255,255,255,.5); margin-bottom: 2rem; line-height: 1.6; }
+.email-fields { display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; }
+.email-fields input { width: 100%; padding: 13px 16px; font-family: var(--font-body); font-size: 15px; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.12); border-radius: 12px; color: var(--white); outline: none; transition: border-color .2s; }
 .email-fields input::placeholder { color: rgba(255,255,255,.25); }
 .email-fields input:focus { border-color: rgba(127,255,0,.5); }
-
-.btn-get-results {
-  font-family: var(--font-display);
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--black);
-  background: var(--green-neon);
-  border: none;
-  border-radius: 100px;
-  padding: 14px 32px;
-  cursor: pointer;
-  width: 100%;
-  transition: all .2s;
-  letter-spacing: .02em;
-}
+.btn-get-results { font-family: var(--font-display); font-size: 15px; font-weight: 700; color: var(--black); background: var(--green-neon); border: none; border-radius: 100px; padding: 14px 32px; cursor: pointer; width: 100%; transition: all .2s; letter-spacing: .02em; }
 .btn-get-results:hover { box-shadow: 0 0 30px rgba(127,255,0,.4); transform: scale(1.02); }
 .btn-get-results:disabled { opacity: .3; pointer-events: none; transform: none; box-shadow: none; }
-
-.skip-link {
-  font-size: 12px;
-  color: rgba(255,255,255,.25);
-  cursor: pointer;
-  margin-top: 12px;
-  display: block;
-  transition: color .15s;
-}
+.skip-link { font-size: 12px; color: rgba(255,255,255,.25); cursor: pointer; margin-top: 12px; display: block; transition: color .15s; }
 .skip-link:hover { color: rgba(255,255,255,.5); }
-
-/* ── RESULTS PAGE ── */
-#results-page {
-  display: none;
-  background: var(--black);
-}
-
-.results-hero {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 4rem 1.5rem;
-  position: relative;
-  overflow: hidden;
-}
-
-.hero-bg-ring {
-  position: absolute;
-  border-radius: 50%;
-  border: 1px solid;
-  pointer-events: none;
-}
-
+#results-page { display: none; background: var(--black); }
+.results-hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 4rem 1.5rem; position: relative; overflow: hidden; }
+.hero-bg-ring { position: absolute; border-radius: 50%; border: 1px solid; pointer-events: none; }
 .ring1 { width: 300px; height: 300px; border-color: rgba(127,255,0,.08); top: 50%; left: 50%; transform: translate(-50%,-50%); }
 .ring2 { width: 500px; height: 500px; border-color: rgba(127,255,0,.05); top: 50%; left: 50%; transform: translate(-50%,-50%); }
 .ring3 { width: 700px; height: 700px; border-color: rgba(127,255,0,.03); top: 50%; left: 50%; transform: translate(-50%,-50%); }
-
-.results-eyebrow {
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: .15em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,.4);
-  margin-bottom: 1rem;
-  opacity: 0;
-  animation: fadeUp .5s .1s forwards;
-}
-
-.results-score-label {
-  font-family: var(--font-display);
-  font-size: clamp(14px, 3vw, 18px);
-  font-weight: 400;
-  color: rgba(255,255,255,.5);
-  margin-bottom: 8px;
-  opacity: 0;
-  animation: fadeUp .5s .2s forwards;
-}
-
-.results-score-big {
-  font-family: var(--font-display);
-  font-size: clamp(80px, 20vw, 140px);
-  font-weight: 800;
-  line-height: .9;
-  color: var(--white);
-  margin-bottom: 8px;
-  opacity: 0;
-  animation: scoreReveal .8s .4s forwards;
-}
-
-.results-score-unit {
-  font-size: 13px;
-  color: rgba(255,255,255,.3);
-  margin-bottom: 1.5rem;
-  opacity: 0;
-  animation: fadeUp .5s .7s forwards;
-}
-
-.results-verdict {
-  font-family: var(--font-display);
-  font-size: clamp(18px, 4vw, 26px);
-  font-weight: 700;
-  max-width: 520px;
-  margin: 0 auto 2rem;
-  line-height: 1.3;
-  opacity: 0;
-  animation: fadeUp .6s .9s forwards;
-}
-
+.results-eyebrow { font-size: 11px; font-weight: 500; letter-spacing: .15em; text-transform: uppercase; color: rgba(255,255,255,.4); margin-bottom: 1rem; opacity: 0; animation: fadeUp .5s .1s forwards; }
+.results-score-label { font-family: var(--font-display); font-size: clamp(14px, 3vw, 18px); font-weight: 400; color: rgba(255,255,255,.5); margin-bottom: 8px; opacity: 0; animation: fadeUp .5s .2s forwards; }
+.results-score-big { font-family: var(--font-display); font-size: clamp(80px, 20vw, 140px); font-weight: 800; line-height: .9; color: var(--white); margin-bottom: 8px; opacity: 0; animation: scoreReveal .8s .4s forwards; }
+.results-score-unit { font-size: 13px; color: rgba(255,255,255,.3); margin-bottom: 1.5rem; opacity: 0; animation: fadeUp .5s .7s forwards; }
+.results-verdict { font-family: var(--font-display); font-size: clamp(18px, 4vw, 26px); font-weight: 700; max-width: 520px; margin: 0 auto 2rem; line-height: 1.3; opacity: 0; animation: fadeUp .6s .9s forwards; }
 .verdict-good { color: var(--green-neon); }
 .verdict-avg { color: var(--amber); }
 .verdict-high { color: #ff6b6b; }
-
-.results-compare-pills {
-  display: flex;
-  gap: 12px;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin-bottom: 1.5rem;
-  opacity: 0;
-  animation: fadeUp .5s 1.1s forwards;
-}
-
-.compare-pill {
-  background: rgba(255,255,255,.07);
-  border: 1px solid rgba(255,255,255,.1);
-  border-radius: 100px;
-  padding: 8px 18px;
-  font-size: 13px;
-  color: rgba(255,255,255,.7);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
+.results-compare-pills { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 1.5rem; opacity: 0; animation: fadeUp .5s 1.1s forwards; }
+.compare-pill { background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.1); border-radius: 100px; padding: 8px 18px; font-size: 13px; color: rgba(255,255,255,.7); display: flex; align-items: center; gap: 8px; }
 .compare-pill .pill-you { color: var(--green-neon); font-weight: 600; }
-
-.scroll-hint {
-  font-size: 12px;
-  color: rgba(255,255,255,.2);
-  margin-top: 1rem;
-  opacity: 0;
-  animation: fadeUp .5s 1.4s forwards;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-}
-
-.scroll-arrow {
-  width: 20px;
-  animation: bounce 1.5s 2s infinite;
-}
-
-.results-section {
-  padding: 5rem 1.5rem;
-  max-width: 700px;
-  margin: 0 auto;
-}
-
-.section-label {
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,.3);
-  margin-bottom: 1rem;
-}
-
-.section-headline {
-  font-family: var(--font-display);
-  font-size: clamp(24px, 5vw, 36px);
-  font-weight: 800;
-  color: var(--white);
-  margin-bottom: 2rem;
-  line-height: 1.15;
-}
-
-.breakdown-list {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  margin-bottom: 3rem;
-}
-
-.breakdown-item {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.breakdown-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.breakdown-name {
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--white);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.breakdown-val {
-  font-family: var(--font-display);
-  font-size: 16px;
-  font-weight: 700;
-}
-
-.bar-bg {
-  height: 10px;
-  background: rgba(255,255,255,.07);
-  border-radius: 100px;
-  overflow: hidden;
-}
-
-.bar-fg {
-  height: 100%;
-  border-radius: 100px;
-  transition: width 1.2s cubic-bezier(.4,0,.2,1);
-  width: 0;
-}
-
-.compare-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
-  margin-bottom: 2rem;
-}
-
-.compare-card {
-  background: rgba(255,255,255,.04);
-  border: 1px solid rgba(255,255,255,.08);
-  border-radius: 16px;
-  padding: 1.25rem;
-  text-align: center;
-}
-
-.compare-card.you-card {
-  background: rgba(127,255,0,.07);
-  border-color: rgba(127,255,0,.25);
-}
-
-.compare-num {
-  font-family: var(--font-display);
-  font-size: 32px;
-  font-weight: 800;
-  margin-bottom: 4px;
-}
-
+.scroll-hint { font-size: 12px; color: rgba(255,255,255,.2); margin-top: 1rem; opacity: 0; animation: fadeUp .5s 1.4s forwards; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.scroll-arrow { width: 20px; animation: bounce 1.5s 2s infinite; }
+.results-section { padding: 5rem 1.5rem; max-width: 700px; margin: 0 auto; }
+.section-label { font-size: 11px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.3); margin-bottom: 1rem; }
+.section-headline { font-family: var(--font-display); font-size: clamp(24px, 5vw, 36px); font-weight: 800; color: var(--white); margin-bottom: 2rem; line-height: 1.15; }
+.breakdown-list { display: flex; flex-direction: column; gap: 16px; margin-bottom: 3rem; }
+.breakdown-item { display: flex; flex-direction: column; gap: 6px; }
+.breakdown-row { display: flex; align-items: center; justify-content: space-between; }
+.breakdown-name { font-size: 14px; font-weight: 500; color: var(--white); display: flex; align-items: center; gap: 8px; }
+.breakdown-val { font-family: var(--font-display); font-size: 16px; font-weight: 700; }
+.bar-bg { height: 10px; background: rgba(255,255,255,.07); border-radius: 100px; overflow: hidden; }
+.bar-fg { height: 100%; border-radius: 100px; transition: width 1.2s cubic-bezier(.4,0,.2,1); width: 0; }
+.compare-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-bottom: 2rem; }
+.compare-card { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); border-radius: 16px; padding: 1.25rem; text-align: center; }
+.compare-card.you-card { background: rgba(127,255,0,.07); border-color: rgba(127,255,0,.25); }
+.compare-num { font-family: var(--font-display); font-size: 32px; font-weight: 800; margin-bottom: 4px; }
 .you-card .compare-num { color: var(--green-neon); }
-
-.compare-lbl {
-  font-size: 11px;
-  color: rgba(255,255,255,.4);
-  line-height: 1.4;
-}
-
-.percentile-bar-wrap {
-  background: rgba(255,255,255,.04);
-  border: 1px solid rgba(255,255,255,.08);
-  border-radius: 16px;
-  padding: 1.25rem;
-  margin-bottom: 2rem;
-}
-
-.pct-label {
-  font-size: 13px;
-  color: rgba(255,255,255,.5);
-  margin-bottom: 10px;
-}
-
-.pct-track {
-  height: 12px;
-  background: rgba(255,255,255,.07);
-  border-radius: 100px;
-  overflow: visible;
-  position: relative;
-  margin-bottom: 8px;
-}
-
-.pct-fill {
-  height: 100%;
-  border-radius: 100px;
-  background: linear-gradient(90deg, var(--green-neon), var(--amber), #ff6b6b);
-  transition: width 1.2s ease;
-  width: 0;
-}
-
-.pct-marker {
-  position: absolute;
-  top: -4px;
-  width: 20px;
-  height: 20px;
-  background: var(--white);
-  border: 3px solid var(--black);
-  border-radius: 50%;
-  transform: translateX(-50%);
-  transition: left 1.2s ease;
-  left: 50%;
-  box-shadow: 0 0 0 2px var(--green-neon);
-}
-
-.pct-ends {
-  display: flex;
-  justify-content: space-between;
-  font-size: 11px;
-  color: rgba(255,255,255,.3);
-}
-
-.facts-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 14px;
-  margin-bottom: 2rem;
-}
-
-.fact-card {
-  background: rgba(255,255,255,.04);
-  border: 1px solid rgba(255,255,255,.08);
-  border-radius: 16px;
-  padding: 1.25rem;
-  position: relative;
-  overflow: hidden;
-}
-
-.fact-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 2px;
-}
-
+.compare-lbl { font-size: 11px; color: rgba(255,255,255,.4); line-height: 1.4; }
+.percentile-bar-wrap { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); border-radius: 16px; padding: 1.25rem; margin-bottom: 2rem; }
+.pct-label { font-size: 13px; color: rgba(255,255,255,.5); margin-bottom: 10px; }
+.pct-track { height: 12px; background: rgba(255,255,255,.07); border-radius: 100px; overflow: visible; position: relative; margin-bottom: 8px; }
+.pct-fill { height: 100%; border-radius: 100px; background: linear-gradient(90deg, var(--green-neon), var(--amber), #ff6b6b); transition: width 1.2s ease; width: 0; }
+.pct-marker { position: absolute; top: -4px; width: 20px; height: 20px; background: var(--white); border: 3px solid var(--black); border-radius: 50%; transform: translateX(-50%); transition: left 1.2s ease; left: 50%; box-shadow: 0 0 0 2px var(--green-neon); }
+.pct-ends { display: flex; justify-content: space-between; font-size: 11px; color: rgba(255,255,255,.3); }
+.facts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin-bottom: 2rem; }
+.fact-card { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); border-radius: 16px; padding: 1.25rem; position: relative; overflow: hidden; }
+.fact-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
 .fact-card.green::before { background: var(--green-neon); }
 .fact-card.amber::before { background: var(--amber); }
 .fact-card.teal::before { background: var(--teal); }
 .fact-card.red::before { background: #ff6b6b; }
-
-.fact-tag {
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,.3);
-  margin-bottom: 8px;
-}
-
-.fact-text {
-  font-size: 14px;
-  color: rgba(255,255,255,.8);
-  line-height: 1.6;
-}
-
+.fact-tag { font-size: 10px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.3); margin-bottom: 8px; }
+.fact-text { font-size: 14px; color: rgba(255,255,255,.8); line-height: 1.6; }
 .fact-text strong { color: var(--green-neon); }
-
-.advice-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 1rem;
-}
-
-.advice-icon-wrap {
-  width: 44px; height: 44px;
-  border-radius: 12px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 22px;
-  flex-shrink: 0;
-}
-
-.advice-title {
-  font-family: var(--font-display);
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--white);
-}
-
-.advice-desc {
-  font-size: 14px;
-  color: rgba(255,255,255,.5);
-  line-height: 1.6;
-  margin-bottom: 1.25rem;
-}
-
-.steps-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.step-item {
-  display: flex;
-  gap: 12px;
-  align-items: flex-start;
-  background: rgba(255,255,255,.04);
-  border: 1px solid rgba(255,255,255,.07);
-  border-radius: 12px;
-  padding: 14px;
-  transition: border-color .2s, transform .2s;
-  cursor: default;
-}
-
-.step-item:hover {
-  border-color: rgba(127,255,0,.2);
-  transform: translateX(4px);
-}
-
-.step-num {
-  width: 26px; height: 26px;
-  border-radius: 50%;
-  background: rgba(127,255,0,.15);
-  color: var(--green-neon);
-  font-size: 12px;
-  font-weight: 700;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-  margin-top: 1px;
-}
-
-.step-text {
-  font-size: 14px;
-  color: rgba(255,255,255,.75);
-  line-height: 1.6;
-}
-
-.svyca-section {
-  background: rgba(127,255,0,.05);
-  border: 1px solid rgba(127,255,0,.15);
-  border-radius: 24px;
-  padding: 2.5rem;
-  margin: 0 1.5rem 5rem;
-  max-width: 700px;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
-}
-
-.svyca-logo {
-  font-family: var(--font-display);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  color: var(--green-neon);
-  margin-bottom: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
-
-.svyca-headline {
-  font-family: var(--font-display);
-  font-size: clamp(24px, 5vw, 34px);
-  font-weight: 800;
-  color: var(--white);
-  margin-bottom: 12px;
-  line-height: 1.2;
-}
-
-.svyca-desc {
-  font-size: 14px;
-  color: rgba(255,255,255,.55);
-  line-height: 1.7;
-  margin-bottom: 1.5rem;
-  max-width: 500px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.svyca-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  justify-content: center;
-  margin-bottom: 2rem;
-}
-
-.svyca-tag {
-  background: rgba(255,255,255,.07);
-  border: 1px solid rgba(255,255,255,.1);
-  border-radius: 100px;
-  padding: 5px 14px;
-  font-size: 12px;
-  color: rgba(255,255,255,.65);
-}
-
-.btn-join {
-  font-family: var(--font-display);
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--black);
-  background: var(--green-neon);
-  border: none;
-  border-radius: 100px;
-  padding: 14px 36px;
-  cursor: pointer;
-  transition: all .2s;
-  letter-spacing: .02em;
-}
+.advice-header { display: flex; align-items: center; gap: 12px; margin-bottom: 1rem; }
+.advice-icon-wrap { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+.advice-title { font-family: var(--font-display); font-size: 18px; font-weight: 700; color: var(--white); }
+.advice-desc { font-size: 14px; color: rgba(255,255,255,.5); line-height: 1.6; margin-bottom: 1.25rem; }
+.steps-list { display: flex; flex-direction: column; gap: 10px; }
+.step-item { display: flex; gap: 12px; align-items: flex-start; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.07); border-radius: 12px; padding: 14px; transition: border-color .2s, transform .2s; cursor: default; }
+.step-item:hover { border-color: rgba(127,255,0,.2); transform: translateX(4px); }
+.step-num { width: 26px; height: 26px; border-radius: 50%; background: rgba(127,255,0,.15); color: var(--green-neon); font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+.step-text { font-size: 14px; color: rgba(255,255,255,.75); line-height: 1.6; }
+.svyca-section { background: rgba(127,255,0,.05); border: 1px solid rgba(127,255,0,.15); border-radius: 24px; padding: 2.5rem; margin: 0 1.5rem 5rem; max-width: 700px; margin-left: auto; margin-right: auto; text-align: center; }
+.svyca-logo { font-family: var(--font-display); font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--green-neon); margin-bottom: 16px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.svyca-headline { font-family: var(--font-display); font-size: clamp(24px, 5vw, 34px); font-weight: 800; color: var(--white); margin-bottom: 12px; line-height: 1.2; }
+.svyca-desc { font-size: 14px; color: rgba(255,255,255,.55); line-height: 1.7; margin-bottom: 1.5rem; max-width: 500px; margin-left: auto; margin-right: auto; }
+.svyca-tags { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 2rem; }
+.svyca-tag { background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.1); border-radius: 100px; padding: 5px 14px; font-size: 12px; color: rgba(255,255,255,.65); }
+.btn-join { font-family: var(--font-display); font-size: 15px; font-weight: 700; color: var(--black); background: var(--green-neon); border: none; border-radius: 100px; padding: 14px 36px; cursor: pointer; transition: all .2s; letter-spacing: .02em; }
 .btn-join:hover { box-shadow: 0 0 30px rgba(127,255,0,.4); transform: scale(1.04); }
-
-.btn-retake {
-  font-family: var(--font-body);
-  font-size: 13px;
-  color: rgba(255,255,255,.25);
-  background: none;
-  border: none;
-  cursor: pointer;
-  display: block;
-  margin: 0 auto 4rem;
-  transition: color .15s;
-}
+.btn-retake { font-family: var(--font-body); font-size: 13px; color: rgba(255,255,255,.25); background: none; border: none; cursor: pointer; display: block; margin: 0 auto 4rem; transition: color .15s; }
 .btn-retake:hover { color: rgba(255,255,255,.5); }
-
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes scoreReveal {
-  from { opacity: 0; transform: scale(.8); }
-  to { opacity: 1; transform: scale(1); }
-}
-
-@keyframes bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(6px); }
-}
-
-@keyframes slideIn {
-  from { opacity: 0; transform: translateX(30px); }
-  to { opacity: 1; transform: translateX(0); }
-}
-
-.animate-in {
-  animation: slideIn .4s ease forwards;
-}
-
-.section-divider {
-  width: 40px;
-  height: 2px;
-  background: rgba(127,255,0,.3);
-  margin: 0 auto 3rem;
-}
-
-@media (max-width: 480px) {
-  .splash-headline { font-size: 48px; }
-  .compare-grid { grid-template-columns: repeat(3, minmax(0,1fr)); gap: 8px; }
-  .compare-card { padding: .75rem; }
-  .compare-num { font-size: 22px; }
-}
+@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes scoreReveal { from { opacity: 0; transform: scale(.8); } to { opacity: 1; transform: scale(1); } }
+@keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
+@keyframes slideIn { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: translateX(0); } }
+.animate-in { animation: slideIn .4s ease forwards; }
+.section-divider { width: 40px; height: 2px; background: rgba(127,255,0,.3); margin: 0 auto 3rem; }
+@media (max-width: 480px) { .splash-headline { font-size: 48px; } .compare-grid { grid-template-columns: repeat(3, minmax(0,1fr)); gap: 8px; } .compare-card { padding: .75rem; } .compare-num { font-size: 22px; } }
 </style>
 </head>
 <body>
 
-<!-- SPLASH -->
 <div id="splash">
   <div class="splash-orb orb1"></div>
   <div class="splash-orb orb2"></div>
   <div class="splash-eyebrow">SVYCA × Climate Science</div>
-  <h1 class="splash-headline">
-    How much CO₂ do
-    <em>you actually emit?</em>
-  </h1>
+  <h1 class="splash-headline">How much CO₂ do <em>you actually emit?</em></h1>
   <div class="splash-stat">Americans emit <strong>16× more CO₂</strong> than the average person in India — most have no idea where it's coming from</div>
   <button class="splash-cta" onclick="startSurvey()">Find out in 60 seconds →</button>
   <span class="splash-sub">12 questions · totally free · eye-opening</span>
 </div>
 
-<!-- SURVEY -->
 <div id="survey">
   <div class="progress-strip">
     <div class="progress-logo">SVYCA</div>
-    <div class="progress-track">
-      <div class="progress-fill" id="prog-fill" style="width:0%"></div>
-    </div>
-    <div class="progress-count" id="prog-count">1 / 10</div>
+    <div class="progress-track"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+    <div class="progress-count" id="prog-count">1 / 12</div>
   </div>
   <div class="q-screen" id="q-screen">
     <div class="q-inner" id="q-inner"></div>
   </div>
 </div>
 
-<!-- EMAIL GATE -->
 <div id="email-gate" style="display:none;">
   <div class="progress-strip">
     <div class="progress-logo">SVYCA</div>
-    <div class="progress-track">
-      <div class="progress-fill" style="width:100%"></div>
-    </div>
+    <div class="progress-track"><div class="progress-fill" style="width:100%"></div></div>
     <div class="progress-count">Done!</div>
   </div>
   <div class="email-screen">
@@ -1047,161 +211,90 @@ body {
   </div>
 </div>
 
-<!-- RESULTS -->
 <div id="results-page">
-
   <div class="results-hero">
     <div class="hero-bg-ring ring1"></div>
     <div class="hero-bg-ring ring2"></div>
     <div class="hero-bg-ring ring3"></div>
-
     <div class="results-eyebrow" id="r-eyebrow">Your carbon footprint</div>
-    <div class="results-score-label" id="r-label">You produce an estimated</div>
+    <div class="results-score-label">You produce an estimated</div>
     <div class="results-score-big" id="r-score">—</div>
     <div class="results-score-unit">relative carbon units per year</div>
     <div class="results-verdict" id="r-verdict"></div>
-
-    <div class="results-compare-pills" id="r-pills">
+    <div class="results-compare-pills">
       <div class="compare-pill">🇺🇸 US avg: <strong>~75</strong></div>
       <div class="compare-pill">🌍 World avg: <strong>~20</strong></div>
       <div class="compare-pill">You: <span class="pill-you" id="r-pill-you">—</span></div>
     </div>
-
     <div class="scroll-hint">
       <span>Scroll to see your breakdown</span>
-      <svg class="scroll-arrow" viewBox="0 0 20 20" fill="none">
-        <path d="M10 3v14M4 11l6 6 6-6" stroke="rgba(255,255,255,.3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
+      <svg class="scroll-arrow" viewBox="0 0 20 20" fill="none"><path d="M10 3v14M4 11l6 6 6-6" stroke="rgba(255,255,255,.3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </div>
   </div>
-
   <div class="section-divider"></div>
-
-  <div class="results-section" style="padding-bottom:0;">
-    <div id="reflection-reveal"></div>
-  </div>
-
+  <div class="results-section" style="padding-bottom:0;"><div id="reflection-reveal"></div></div>
   <div class="results-section">
     <div class="section-label">Where it's coming from</div>
     <div class="section-headline" id="biggest-source-line">Your biggest source</div>
     <div class="breakdown-list" id="breakdown-list"></div>
   </div>
-
   <div class="results-section" style="padding-top:0">
     <div class="section-label">How you stack up</div>
     <div class="section-headline">You vs. the world</div>
-    <div class="compare-grid" id="compare-grid">
-      <div class="compare-card you-card">
-        <div class="compare-num" id="cg-you">—</div>
-        <div class="compare-lbl">Your score</div>
-      </div>
-      <div class="compare-card">
-        <div class="compare-num" style="color:var(--amber)">~75</div>
-        <div class="compare-lbl">US average</div>
-      </div>
-      <div class="compare-card">
-        <div class="compare-num" style="color:#aaa">~20</div>
-        <div class="compare-lbl">World average</div>
-      </div>
+    <div class="compare-grid">
+      <div class="compare-card you-card"><div class="compare-num" id="cg-you">—</div><div class="compare-lbl">Your score</div></div>
+      <div class="compare-card"><div class="compare-num" style="color:var(--amber)">~75</div><div class="compare-lbl">US average</div></div>
+      <div class="compare-card"><div class="compare-num" style="color:#aaa">~20</div><div class="compare-lbl">World average</div></div>
     </div>
     <div class="percentile-bar-wrap">
       <div class="pct-label" id="pct-label">Calculating your percentile…</div>
-      <div class="pct-track">
-        <div class="pct-fill" id="pct-fill"></div>
-        <div class="pct-marker" id="pct-marker"></div>
-      </div>
+      <div class="pct-track"><div class="pct-fill" id="pct-fill"></div><div class="pct-marker" id="pct-marker"></div></div>
       <div class="pct-ends"><span>Lowest footprint</span><span>Highest footprint</span></div>
     </div>
   </div>
-
   <div class="results-section" style="padding-top:0">
     <div class="section-label">Did you know?</div>
     <div class="section-headline">Facts that'll change how you see your day</div>
     <div class="facts-grid" id="facts-grid"></div>
   </div>
-
   <div class="results-section" style="padding-top:0">
     <div class="section-label">Your personalized plan</div>
     <div class="section-headline" id="advice-headline">Here's what you can actually do</div>
     <div id="advice-content"></div>
   </div>
-
   <div class="svyca-section">
     <div class="svyca-logo">
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-        <circle cx="8" cy="8" r="7" stroke="#7fff00" stroke-width="1.2"/>
-        <path d="M5 8.5c0-1.7 1.3-3 3-3s3 1.3 3 3" stroke="#7fff00" stroke-width="1.2" stroke-linecap="round"/>
-        <circle cx="8" cy="10" r="1" fill="#7fff00"/>
-      </svg>
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="#7fff00" stroke-width="1.2"/><path d="M5 8.5c0-1.7 1.3-3 3-3s3 1.3 3 3" stroke="#7fff00" stroke-width="1.2" stroke-linecap="round"/><circle cx="8" cy="10" r="1" fill="#7fff00"/></svg>
       Silicon Valley Youth Climate Action
     </div>
     <h2 class="svyca-headline">Climate change is a policy problem.<br>Youth can fix it.</h2>
-    <p class="svyca-desc">SVYCA is a youth-led nonprofit empowering Bay Area students to fight climate change — not just with facts, but with action. We meet with legislators, push clean energy policy, run community campaigns, and train the next generation of climate leaders. It's science, yes. But also advocacy, tech, policy, and real-world impact.</p>
+    <p class="svyca-desc">SVYCA is a youth-led nonprofit empowering Bay Area students to fight climate change — not just with facts, but with action. We meet with legislators, push clean energy policy, run community campaigns, and train the next generation of climate leaders.</p>
     <div class="svyca-tags">
-      <span class="svyca-tag">Policy Advocacy</span>
-      <span class="svyca-tag">Clean Energy</span>
-      <span class="svyca-tag">Civic Leadership</span>
-      <span class="svyca-tag">Community Projects</span>
-      <span class="svyca-tag">Education</span>
-      <span class="svyca-tag">Tech & Innovation</span>
+      <span class="svyca-tag">Policy Advocacy</span><span class="svyca-tag">Clean Energy</span><span class="svyca-tag">Civic Leadership</span><span class="svyca-tag">Community Projects</span><span class="svyca-tag">Education</span><span class="svyca-tag">Tech & Innovation</span>
     </div>
     <button class="btn-join" onclick="trackJoinClick()">Join SVYCA — we'd love to have you →</button>
   </div>
-
   <button class="btn-retake" onclick="restart()">↺ Retake the quiz</button>
-
 </div>
 
 <script>
+// ── CONFIG ──────────────────────────────────────────────────────────────────
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbwSnDSa_9kd8xoagei42DBQTTKVXu3OJvucHCR3Kr0FCcnMSbHBknuAN2IcPWTrdD1f/exec';
+// ────────────────────────────────────────────────────────────────────────────
+
 const Q = [
-  {id:'transport',sec:'Transportation',tag:'tag-t',
-   text:'How do you get around most days?',
-   why:'Daily commuting is often the single biggest slice of a person\'s carbon footprint.',
-   opts:[{l:'Drive alone',e:'🚗',w:10},{l:'Carpool / rideshare',e:'🚕',w:5},{l:'Public transit',e:'🚌',w:2},{l:'Bike or walk',e:'🚲',w:0},{l:'Remote — I don\'t commute',e:'🏠',w:1}]},
-  {id:'miles',sec:'Transportation',tag:'tag-t',
-   text:'How many miles do you drive in a typical week?',
-   why:'Direct link between miles on the road and CO₂ released.',
-   opts:[{l:'0–10 miles',e:'📍',w:0},{l:'10–50 miles',e:'🛣️',w:3},{l:'50–150 miles',e:'🗺️',w:7},{l:'150–300 miles',e:'⛽',w:12},{l:'300+ miles',e:'🛞',w:18}]},
-  {id:'vehicle',sec:'Transportation',tag:'tag-t',
-   text:'What kind of vehicle do you use most?',
-   why:'An EV and a large pickup truck can differ by 10× in emissions per mile.',
-   opts:[{l:'Gas car',e:'🚙',w:8},{l:'Hybrid',e:'🔋',w:4},{l:'Electric vehicle',e:'⚡',w:1},{l:'Large SUV or truck',e:'🚚',w:14},{l:"I don't drive",e:'🚶',w:0}]},
-  {id:'hometype',sec:'Home Energy',tag:'tag-e',
-   text:'What kind of home do you live in?',
-   why:'Home size strongly predicts how much energy you use to heat, cool, and power it.',
-   opts:[{l:'Large house',e:'🏰',w:14},{l:'Medium house',e:'🏘️',w:9},{l:'Small house',e:'🏚️',w:6},{l:'Apartment or condo',e:'🏢',w:4},{l:'Dorm or shared housing',e:'🏫',w:2}]},
-  {id:'household',sec:'Home Energy',tag:'tag-e',
-   text:'How many people share your home?',
-   why:'Every extra person splits the household footprint — shared living is greener.',
-   opts:[{l:'Just me',e:'🙋',w:0,d:1},{l:'2 people',e:'👫',w:0,d:2},{l:'3–4 people',e:'👨‍👩‍👧',w:0,d:3.5},{l:'5 or more',e:'👨‍👩‍👧‍👦',w:0,d:5}]},
-  {id:'energy',sec:'Home Energy',tag:'tag-e',
-   text:'Where does your home\'s energy come from?',
-   why:'The same home can have a near-zero or very high footprint depending on its energy source.',
-   opts:[{l:'Mostly fossil fuels',e:'🔥',w:14},{l:'Mixed sources',e:'⚡',w:7},{l:'Mostly renewable',e:'💨',w:2},{l:'Solar panels at home',e:'☀️',w:1},{l:'Not sure',e:'🤷',w:8}]},
-  {id:'diet',sec:'Food',tag:'tag-f',
-   text:'How would you describe your diet?',
-   why:'Beef alone produces roughly 20× more emissions than plant-based proteins.',
-   opts:[{l:'Red meat most days',e:'🥩',w:20},{l:'Meat a few times a week',e:'🍗',w:12},{l:'Mostly chicken or fish',e:'🐟',w:7},{l:'Vegetarian',e:'🥦',w:4},{l:'Vegan',e:'🌱',w:2}]},
-  {id:'waste',sec:'Food',tag:'tag-f',
-   text:'How often does food go to waste in your home?',
-   why:'Food waste alone accounts for ~8% of global greenhouse gas emissions.',
-   opts:[{l:'Often',e:'🗑️',w:8},{l:'Sometimes',e:'🤔',w:4},{l:'Rarely',e:'👍',w:1},{l:'Almost never',e:'✅',w:0}]},
-  {id:'consumption',sec:'Consumption',tag:'tag-c',
-   text:'How often do you buy new clothes, gadgets, or non-essential stuff?',
-   why:'Manufacturing new goods — especially fast fashion — is surprisingly carbon-heavy.',
-   opts:[{l:'Very often',e:'🛍️',w:12},{l:'Sometimes',e:'🛒',w:6},{l:'Rarely',e:'♻️',w:2},{l:'Almost never',e:'🌿',w:0}]},
-  {id:'streaming',sec:'Technology',tag:'tag-d',
-   text:'How many hours a day do you spend streaming or using cloud apps?',
-   why:'Streaming and cloud services run on energy-hungry data centers — most people never think about it.',
-   opts:[{l:'Less than 1 hour',e:'📵',w:1},{l:'1–3 hours',e:'📱',w:4},{l:'3–6 hours',e:'💻',w:8},{l:'6+ hours',e:'📺',w:12}]},
-  {id:'devices',sec:'Technology',tag:'tag-d',
-   text:'How often do you upgrade phones, laptops, or other devices?',
-   why:'Manufacturing a single smartphone emits as much CO₂ as charging it every day for 10 years.',
-   opts:[{l:'Every year',e:'🔄',w:14},{l:'Every 2–3 years',e:'⏳',w:8},{l:'Every 4–5 years',e:'🔧',w:3},{l:'Only when it breaks',e:'♻️',w:0}]},
-  {id:'reflection',sec:'Reflection',tag:'tag-r',
-   text:'Before you see your results — which area do you think is your biggest carbon source?',
-   why:'We\'ll compare your guess to the actual calculation. Most people are surprised.',
-   opts:[{l:'Transportation',e:'🚗',w:0,guess:'transport'},{l:'Home energy',e:'🏠',w:0,guess:'energy'},{l:'Food',e:'🥦',w:0,guess:'food'},{l:'Shopping / consumption',e:'🛍️',w:0,guess:'consumption'},{l:'Technology',e:'💻',w:0,guess:'tech'}]}
+  {id:'transport',sec:'Transportation',tag:'tag-t',text:'How do you get around most days?',why:'Daily commuting is often the single biggest slice of a person\'s carbon footprint.',opts:[{l:'Drive alone',e:'🚗',w:10},{l:'Carpool / rideshare',e:'🚕',w:5},{l:'Public transit',e:'🚌',w:2},{l:'Bike or walk',e:'🚲',w:0},{l:'Remote — I don\'t commute',e:'🏠',w:1}]},
+  {id:'miles',sec:'Transportation',tag:'tag-t',text:'How many miles do you drive in a typical week?',why:'Direct link between miles on the road and CO₂ released.',opts:[{l:'0–10 miles',e:'📍',w:0},{l:'10–50 miles',e:'🛣️',w:3},{l:'50–150 miles',e:'🗺️',w:7},{l:'150–300 miles',e:'⛽',w:12},{l:'300+ miles',e:'🛞',w:18}]},
+  {id:'vehicle',sec:'Transportation',tag:'tag-t',text:'What kind of vehicle do you use most?',why:'An EV and a large pickup truck can differ by 10× in emissions per mile.',opts:[{l:'Gas car',e:'🚙',w:8},{l:'Hybrid',e:'🔋',w:4},{l:'Electric vehicle',e:'⚡',w:1},{l:'Large SUV or truck',e:'🚚',w:14},{l:"I don't drive",e:'🚶',w:0}]},
+  {id:'hometype',sec:'Home Energy',tag:'tag-e',text:'What kind of home do you live in?',why:'Home size strongly predicts how much energy you use to heat, cool, and power it.',opts:[{l:'Large house',e:'🏰',w:14},{l:'Medium house',e:'🏘️',w:9},{l:'Small house',e:'🏚️',w:6},{l:'Apartment or condo',e:'🏢',w:4},{l:'Dorm or shared housing',e:'🏫',w:2}]},
+  {id:'household',sec:'Home Energy',tag:'tag-e',text:'How many people share your home?',why:'Every extra person splits the household footprint — shared living is greener.',opts:[{l:'Just me',e:'🙋',w:0,d:1},{l:'2 people',e:'👫',w:0,d:2},{l:'3–4 people',e:'👨‍👩‍👧',w:0,d:3.5},{l:'5 or more',e:'👨‍👩‍👧‍👦',w:0,d:5}]},
+  {id:'energy',sec:'Home Energy',tag:'tag-e',text:'Where does your home\'s energy come from?',why:'The same home can have a near-zero or very high footprint depending on its energy source.',opts:[{l:'Mostly fossil fuels',e:'🔥',w:14},{l:'Mixed sources',e:'⚡',w:7},{l:'Mostly renewable',e:'💨',w:2},{l:'Solar panels at home',e:'☀️',w:1},{l:'Not sure',e:'🤷',w:8}]},
+  {id:'diet',sec:'Food',tag:'tag-f',text:'How would you describe your diet?',why:'Beef alone produces roughly 20× more emissions than plant-based proteins.',opts:[{l:'Red meat most days',e:'🥩',w:20},{l:'Meat a few times a week',e:'🍗',w:12},{l:'Mostly chicken or fish',e:'🐟',w:7},{l:'Vegetarian',e:'🥦',w:4},{l:'Vegan',e:'🌱',w:2}]},
+  {id:'waste',sec:'Food',tag:'tag-f',text:'How often does food go to waste in your home?',why:'Food waste alone accounts for ~8% of global greenhouse gas emissions.',opts:[{l:'Often',e:'🗑️',w:8},{l:'Sometimes',e:'🤔',w:4},{l:'Rarely',e:'👍',w:1},{l:'Almost never',e:'✅',w:0}]},
+  {id:'consumption',sec:'Consumption',tag:'tag-c',text:'How often do you buy new clothes, gadgets, or non-essential stuff?',why:'Manufacturing new goods — especially fast fashion — is surprisingly carbon-heavy.',opts:[{l:'Very often',e:'🛍️',w:12},{l:'Sometimes',e:'🛒',w:6},{l:'Rarely',e:'♻️',w:2},{l:'Almost never',e:'🌿',w:0}]},
+  {id:'streaming',sec:'Technology',tag:'tag-d',text:'How many hours a day do you spend streaming or using cloud apps?',why:'Streaming and cloud services run on energy-hungry data centers — most people never think about it.',opts:[{l:'Less than 1 hour',e:'📵',w:1},{l:'1–3 hours',e:'📱',w:4},{l:'3–6 hours',e:'💻',w:8},{l:'6+ hours',e:'📺',w:12}]},
+  {id:'devices',sec:'Technology',tag:'tag-d',text:'How often do you upgrade phones, laptops, or other devices?',why:'Manufacturing a single smartphone emits as much CO₂ as charging it every day for 10 years.',opts:[{l:'Every year',e:'🔄',w:14},{l:'Every 2–3 years',e:'⏳',w:8},{l:'Every 4–5 years',e:'🔧',w:3},{l:'Only when it breaks',e:'♻️',w:0}]},
+  {id:'reflection',sec:'Reflection',tag:'tag-r',text:'Before you see your results — which area do you think is your biggest carbon source?',why:'We\'ll compare your guess to the actual calculation. Most people are surprised.',opts:[{l:'Transportation',e:'🚗',w:0,guess:'transport'},{l:'Home energy',e:'🏠',w:0,guess:'energy'},{l:'Food',e:'🥦',w:0,guess:'food'},{l:'Shopping / consumption',e:'🛍️',w:0,guess:'consumption'},{l:'Technology',e:'💻',w:0,guess:'tech'}]}
 ];
 
 const OPTION_MSGS = [
@@ -1225,56 +318,22 @@ const SEC_ICONS = {transport:'🚗',energy:'🏠',food:'🥦',consumption:'🛒'
 const SEC_Q = {transport:[0,1,2],energy:[3,4,5],food:[6,7],consumption:[8],tech:[9,10]};
 
 const ALL_FACTS = {
-  transport:[
-    {tag:'Shocking fact',txt:'Transportation is the <strong>#1 source</strong> of US carbon emissions — responsible for 28% of all output. Yes, more than factories.',color:'green'},
-    {tag:'Real talk',txt:'The average American drives <strong>~13,500 miles a year</strong> — that\'s like driving halfway around the Earth.',color:'amber'},
-    {tag:'Good news',txt:'If every Bay Area commuter went car-free just <strong>one day a week</strong>, it would cut regional transport emissions by ~18%.',color:'teal'}
-  ],
-  energy:[
-    {tag:'Mind-blowing',txt:'Switching to a <strong>green electricity plan</strong> in California can cut your home footprint by up to 50% — with zero equipment changes.',color:'green'},
-    {tag:'Tiny habit, big impact',txt:'Your devices on standby (TVs, chargers, routers) account for up to <strong>10% of your electricity bill</strong> — and you\'re not even using them.',color:'amber'},
-    {tag:'Good news',txt:'California already gets <strong>33% of its electricity from renewables</strong>. The Bay Area grid is one of the cleanest in the entire country.',color:'teal'}
-  ],
-  food:[
-    {tag:'Jaw-dropping',txt:'Producing <strong>1 lb of beef</strong> uses 1,800 gallons of water and emits more CO₂ than driving 60 miles. Let that sink in.',color:'red'},
-    {tag:'Real talk',txt:'If beef were a country, it would be the <strong>world\'s 3rd largest emitter</strong> — behind only China and the USA.',color:'amber'},
-    {tag:'Easy win',txt:'Cutting red meat to <strong>once a week</strong> instead of daily is the single highest-impact dietary change most people can make.',color:'green'}
-  ],
-  consumption:[
-    {tag:'Shocking fact',txt:'The fashion industry produces <strong>10% of global carbon emissions</strong> — more than aviation and maritime shipping combined.',color:'red'},
-    {tag:'Real talk',txt:'Making one cotton t-shirt uses about <strong>700 gallons of water</strong> and emits roughly 5.5 lbs of CO₂. That\'s before it ships to you.',color:'amber'},
-    {tag:'Easy win',txt:'Buying one item secondhand instead of new saves an average of <strong>25 lbs of CO₂</strong> per purchase.',color:'teal'}
-  ],
-  tech:[
-    {tag:'Surprise',txt:'Data centers consume about <strong>1–2% of global electricity</strong> — and demand is doubling every four years as streaming and AI grow.',color:'green'},
-    {tag:'Real talk',txt:'Making a new smartphone emits <strong>~70 kg of CO₂</strong> — about the same as charging it every day for a decade. The phone is the problem, not the charger.',color:'amber'},
-    {tag:'Easy win',txt:'Keeping your phone for <strong>one extra year</strong> cuts its lifetime carbon footprint by roughly 30%. The greenest device is the one you already own.',color:'teal'}
-  ]
+  transport:[{tag:'Shocking fact',txt:'Transportation is the <strong>#1 source</strong> of US carbon emissions — responsible for 28% of all output.',color:'green'},{tag:'Real talk',txt:'The average American drives <strong>~13,500 miles a year</strong> — that\'s like driving halfway around the Earth.',color:'amber'},{tag:'Good news',txt:'If every Bay Area commuter went car-free just <strong>one day a week</strong>, it would cut regional transport emissions by ~18%.',color:'teal'}],
+  energy:[{tag:'Mind-blowing',txt:'Switching to a <strong>green electricity plan</strong> in California can cut your home footprint by up to 50% — with zero equipment changes.',color:'green'},{tag:'Tiny habit, big impact',txt:'Your devices on standby account for up to <strong>10% of your electricity bill</strong> — and you\'re not even using them.',color:'amber'},{tag:'Good news',txt:'California already gets <strong>33% of its electricity from renewables</strong>. The Bay Area grid is one of the cleanest in the country.',color:'teal'}],
+  food:[{tag:'Jaw-dropping',txt:'Producing <strong>1 lb of beef</strong> uses 1,800 gallons of water and emits more CO₂ than driving 60 miles.',color:'red'},{tag:'Real talk',txt:'If beef were a country, it would be the <strong>world\'s 3rd largest emitter</strong> — behind only China and the USA.',color:'amber'},{tag:'Easy win',txt:'Cutting red meat to <strong>once a week</strong> is the single highest-impact dietary change most people can make.',color:'green'}],
+  consumption:[{tag:'Shocking fact',txt:'The fashion industry produces <strong>10% of global carbon emissions</strong> — more than aviation and maritime shipping combined.',color:'red'},{tag:'Real talk',txt:'Making one cotton t-shirt uses about <strong>700 gallons of water</strong> and emits roughly 5.5 lbs of CO₂.',color:'amber'},{tag:'Easy win',txt:'Buying one item secondhand instead of new saves an average of <strong>25 lbs of CO₂</strong> per purchase.',color:'teal'}],
+  tech:[{tag:'Surprise',txt:'Data centers consume about <strong>1–2% of global electricity</strong> — and demand is doubling every four years.',color:'green'},{tag:'Real talk',txt:'Making a new smartphone emits <strong>~70 kg of CO₂</strong> — about the same as charging it every day for a decade.',color:'amber'},{tag:'Easy win',txt:'Keeping your phone for <strong>one extra year</strong> cuts its lifetime carbon footprint by roughly 30%.',color:'teal'}]
 };
 
 const ADVICE = {
-  transport:{icon:'🚗',bg:'rgba(93,202,165,.1)',border:'rgba(93,202,165,.2)',
-    desc:'Transportation is your biggest lever. The good news: even small changes compound fast.',
-    steps:['Replace one car commute per week with biking, walking, or transit — a single shift makes a measurable annual difference.','Next vehicle: go electric or hybrid. EVs in California emit ~70% less CO₂ per mile than gas cars.','Use Waze Carpool or Scoop to find rideshare routes on your commute — saves money and emissions.','When driving is unavoidable, combine errands into single trips and avoid idling.']},
-  energy:{icon:'🏠',bg:'rgba(239,159,39,.08)',border:'rgba(239,159,39,.2)',
-    desc:'Your home energy footprint is highly fixable — many changes cost nothing.',
-    steps:['Switch to PG&E\'s CleanChoice or MCE Clean Energy — takes 5 minutes online, same price, near-zero carbon electricity.','Set your thermostat 2°F lower in winter / higher in summer. Cuts HVAC emissions by 5–10% instantly.','Replace incandescent bulbs with LEDs — 75% less energy, lasts 25× longer, pays for itself in months.','Unplug chargers, power strips, and TVs when not in use. Standby power is 10% of your bill for zero benefit.']},
-  food:{icon:'🥦',bg:'rgba(127,255,0,.06)',border:'rgba(127,255,0,.2)',
-    desc:'Your diet is one of the most powerful climate levers you hold — three times a day.',
-    steps:['Try one plant-based day per week. "Meatless Monday" alone can cut food emissions by up to 15%.','When you do eat meat, choose chicken or fish — they produce 4–8× less emissions than beef.','Plan meals before shopping. The average American wastes 30% of purchased food — that waste has a massive carbon cost.','Shop local farmers markets when possible. Local food travels fewer miles and supports the regional food system.']},
-  consumption:{icon:'🛒',bg:'rgba(175,169,236,.08)',border:'rgba(175,169,236,.2)',
-    desc:'Every purchase is a carbon vote. Here\'s how to spend smarter.',
-    steps:['Use the 30-day rule: wait 30 days before buying non-essential items. Most impulse urges fade — and the planet wins.','Buy secondhand first — ThredUp, Depop, Facebook Marketplace. Often cheaper and carbon savings are real.','Repair before replacing. A $40 phone screen repair beats manufacturing an entirely new device.','Choose quality over quantity — one durable item purchased rarely has a much smaller footprint than frequent cheap replacements.']},
-  tech:{icon:'💻',bg:'rgba(56,189,248,.07)',border:'rgba(56,189,248,.2)',
-    desc:'Your digital habits have a real carbon cost — but a few shifts can significantly reduce it.',
-    steps:['Keep devices as long as possible. Extending a phone\'s life by one year cuts its total footprint by ~30%.','Download instead of streaming when you can — a downloaded file plays without constant server requests.','Turn off or unplug devices fully when not in use. Standby mode still draws power around the clock.','When you do upgrade, recycle or donate old devices through programs like Apple Trade-In, Best Buy, or local e-waste drives.']}
+  transport:{icon:'🚗',bg:'rgba(93,202,165,.1)',border:'rgba(93,202,165,.2)',desc:'Transportation is your biggest lever. The good news: even small changes compound fast.',steps:['Replace one car commute per week with biking, walking, or transit.','Next vehicle: go electric or hybrid. EVs in California emit ~70% less CO₂ per mile than gas cars.','Use Waze Carpool or Scoop to find rideshare routes on your commute.','When driving is unavoidable, combine errands into single trips and avoid idling.']},
+  energy:{icon:'🏠',bg:'rgba(239,159,39,.08)',border:'rgba(239,159,39,.2)',desc:'Your home energy footprint is highly fixable — many changes cost nothing.',steps:['Switch to PG&E\'s CleanChoice or MCE Clean Energy — takes 5 minutes online, same price.','Set your thermostat 2°F lower in winter / higher in summer. Cuts HVAC emissions by 5–10%.','Replace incandescent bulbs with LEDs — 75% less energy, lasts 25× longer.','Unplug chargers, power strips, and TVs when not in use.']},
+  food:{icon:'🥦',bg:'rgba(127,255,0,.06)',border:'rgba(127,255,0,.2)',desc:'Your diet is one of the most powerful climate levers you hold — three times a day.',steps:['Try one plant-based day per week. "Meatless Monday" alone can cut food emissions by up to 15%.','When you do eat meat, choose chicken or fish — 4–8× less emissions than beef.','Plan meals before shopping to cut food waste.','Shop local farmers markets when possible.']},
+  consumption:{icon:'🛒',bg:'rgba(175,169,236,.08)',border:'rgba(175,169,236,.2)',desc:'Every purchase is a carbon vote. Here\'s how to spend smarter.',steps:['Use the 30-day rule: wait 30 days before buying non-essential items.','Buy secondhand first — ThredUp, Depop, Facebook Marketplace.','Repair before replacing. A $40 phone screen repair beats manufacturing a new device.','Choose quality over quantity — one durable item has a much smaller footprint.']},
+  tech:{icon:'💻',bg:'rgba(56,189,248,.07)',border:'rgba(56,189,248,.2)',desc:'Your digital habits have a real carbon cost — but a few shifts can significantly reduce it.',steps:['Keep devices as long as possible. One extra year cuts footprint by ~30%.','Download instead of streaming when you can.','Turn off or unplug devices fully when not in use.','When you do upgrade, recycle through Apple Trade-In, Best Buy, or local e-waste drives.']}
 };
 
 let cur = 0, ans = {};
-
-// ── PERSISTENT STORAGE KEY (must match admin dashboard) ──
-const STORAGE_KEY = 'svyca_responses';
-const JOINS_KEY = 'svyca_join_clicks';
 
 function startSurvey() {
   document.getElementById('splash').style.display = 'none';
@@ -1285,69 +344,50 @@ function startSurvey() {
 function renderQ(i) {
   const q = Q[i];
   const sel = ans[i];
-  const pct = Math.round((i / Q.length) * 100);
-  document.getElementById('prog-fill').style.width = pct + '%';
-  document.getElementById('prog-count').textContent = (Math.min(i+1, Q.length)) + ' / ' + Q.length;
-
-  const html = `
+  document.getElementById('prog-fill').style.width = Math.round((i / Q.length) * 100) + '%';
+  document.getElementById('prog-count').textContent = (i + 1) + ' / ' + Q.length;
+  document.getElementById('q-inner').innerHTML = `
     <div class="animate-in">
       <div class="q-section-tag ${q.tag}">${q.sec}</div>
       <div class="q-number">Q${i+1}</div>
       <div class="q-text">${q.text}</div>
       <div class="q-why">${q.why}</div>
       <div class="options-grid">
-        ${q.opts.map((o,j) => `
-          <button class="opt-btn${sel===j?' selected':''}" onclick="pick(${i},${j})">
-            <span class="opt-emoji">${o.e}</span>
-            <span class="opt-label">${o.l}</span>
-            <span class="opt-check">
-              ${sel===j?`<svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#0d0d0d" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`:''}
-            </span>
-          </button>`).join('')}
+        ${q.opts.map((o,j) => `<button class="opt-btn${sel===j?' selected':''}" onclick="pick(${i},${j})"><span class="opt-emoji">${o.e}</span><span class="opt-label">${o.l}</span><span class="opt-check">${sel===j?'<svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#0d0d0d" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>':''}</span></button>`).join('')}
       </div>
       <div class="q-nav">
         ${i > 0 ? `<button class="btn-back" onclick="goBack()">← Back</button>` : `<span></span>`}
-        <button class="btn-next${sel!==undefined?' active':''}" onclick="goNext()">${i === Q.length-2 ? 'Almost done →' : i === Q.length-1 ? 'Reveal my results →' : 'Next →'}</button>
+        <button class="btn-next${sel!==undefined?' active':''}" onclick="goNext()">${i===Q.length-2?'Almost done →':i===Q.length-1?'Reveal my results →':'Next →'}</button>
       </div>
     </div>`;
-  document.getElementById('q-inner').innerHTML = html;
-
   if (sel !== undefined) {
-    const msg = (OPTION_MSGS[i] || [])[sel] || '';
+    const msg = (OPTION_MSGS[i]||[])[sel]||'';
     if (msg) {
-      const feedback = document.createElement('div');
-      feedback.id = 'inline-feedback';
-      feedback.style.cssText = `margin-top:14px;padding:11px 16px;background:rgba(127,255,0,.07);border:1px solid rgba(127,255,0,.2);border-radius:10px;font-size:13px;color:rgba(255,255,255,.75);line-height:1.5;`;
-      feedback.textContent = msg;
-      document.querySelector('.options-grid').after(feedback);
+      const fb = document.createElement('div');
+      fb.style.cssText = 'margin-top:14px;padding:11px 16px;background:rgba(127,255,0,.07);border:1px solid rgba(127,255,0,.2);border-radius:10px;font-size:13px;color:rgba(255,255,255,.75);line-height:1.5;';
+      fb.textContent = msg;
+      document.querySelector('.options-grid').after(fb);
     }
   }
 }
 
 function pick(qi, oi) {
   ans[qi] = oi;
-  const btns = document.querySelectorAll('.opt-btn');
-  btns.forEach((btn, idx) => {
+  document.querySelectorAll('.opt-btn').forEach((btn, idx) => {
     btn.classList.toggle('selected', idx === oi);
-    const chk = btn.querySelector('.opt-check');
-    if (idx === oi) {
-      chk.innerHTML = `<svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#0d0d0d" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
-    } else {
-      chk.innerHTML = '';
-    }
+    btn.querySelector('.opt-check').innerHTML = idx===oi ? '<svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#0d0d0d" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>' : '';
   });
-  const nextBtn = document.querySelector('.btn-next');
-  if (nextBtn) nextBtn.classList.add('active');
-  const msg = (OPTION_MSGS[qi] || [])[oi] || '✅ Got it!';
-  let feedback = document.getElementById('inline-feedback');
-  if (!feedback) {
-    feedback = document.createElement('div');
-    feedback.id = 'inline-feedback';
-    feedback.style.cssText = `margin-top:14px;padding:11px 16px;background:rgba(127,255,0,.07);border:1px solid rgba(127,255,0,.2);border-radius:10px;font-size:13px;color:rgba(255,255,255,.75);line-height:1.5;opacity:0;transition:opacity .3s ease;`;
-    document.querySelector('.options-grid').after(feedback);
+  document.querySelector('.btn-next')?.classList.add('active');
+  const msg = (OPTION_MSGS[qi]||[])[oi]||'✅ Got it!';
+  let fb = document.getElementById('inline-feedback');
+  if (!fb) {
+    fb = document.createElement('div');
+    fb.id = 'inline-feedback';
+    fb.style.cssText = 'margin-top:14px;padding:11px 16px;background:rgba(127,255,0,.07);border:1px solid rgba(127,255,0,.2);border-radius:10px;font-size:13px;color:rgba(255,255,255,.75);line-height:1.5;opacity:0;transition:opacity .3s ease;';
+    document.querySelector('.options-grid').after(fb);
   }
-  feedback.textContent = msg;
-  requestAnimationFrame(() => { feedback.style.opacity = '1'; });
+  fb.textContent = msg;
+  requestAnimationFrame(() => { fb.style.opacity = '1'; });
 }
 
 function goNext() {
@@ -1356,10 +396,7 @@ function goNext() {
   if (cur >= Q.length) {
     document.getElementById('survey').style.display = 'none';
     document.getElementById('email-gate').style.display = 'block';
-  } else {
-    renderQ(cur);
-    window.scrollTo(0,0);
-  }
+  } else { renderQ(cur); window.scrollTo(0,0); }
 }
 
 function goBack() {
@@ -1367,195 +404,112 @@ function goBack() {
 }
 
 function checkEmail(inp) {
-  const ok = /\S+@\S+\.\S+/.test(inp.value);
-  document.getElementById('submit-btn').disabled = !ok;
+  document.getElementById('submit-btn').disabled = !/\S+@\S+\.\S+/.test(inp.value);
 }
 
 function scores() {
   const s = {transport:0,energy:0,food:0,consumption:0,tech:0};
-  const hd = ans[4] !== undefined ? (Q[4].opts[ans[4]].d || 1) : 1;
-  for (const [k, idxs] of Object.entries(SEC_Q)) {
+  const hd = ans[4]!==undefined ? (Q[4].opts[ans[4]].d||1) : 1;
+  for (const [k,idxs] of Object.entries(SEC_Q)) {
     let t = 0;
-    for (const i of idxs) { if (ans[i] !== undefined) t += Q[i].opts[ans[i]].w; }
-    if (k === 'energy') t = t / hd;
+    for (const i of idxs) { if (ans[i]!==undefined) t += Q[i].opts[ans[i]].w; }
+    if (k==='energy') t = t/hd;
     s[k] = Math.round(t);
   }
   return s;
 }
 
-function totalScore(s) { return Object.values(s).reduce((a,b) => a+b, 0); }
-function biggestKey(s) { return Object.entries(s).sort((a,b) => b[1]-a[1])[0][0]; }
+function totalScore(s) { return Object.values(s).reduce((a,b)=>a+b,0); }
+function biggestKey(s) { return Object.entries(s).sort((a,b)=>b[1]-a[1])[0][0]; }
+
+// ── SAVE TO GOOGLE SHEETS ────────────────────────────────────────────────────
+function saveToSheet(email) {
+  const sc = scores();
+  const data = {
+    ts: new Date().toISOString(),
+    email: email || '',
+    score: totalScore(sc),
+    biggest: biggestKey(sc),
+    scores: { transport: sc.transport, energy: sc.energy, food: sc.food, consumption: sc.consumption }
+  };
+  // fire-and-forget: don't block the UI waiting for the sheet response
+  fetch(SHEET_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  }).catch(() => {}); // silently ignore network errors so survey still works
+}
+// ────────────────────────────────────────────────────────────────────────────
 
 function submitAndShow() {
   const email = document.getElementById('femail').value.trim();
-  saveResponse(email);
+  saveToSheet(email);
   showResults();
 }
 
-// ── FIXED: now saves to persistent window.storage instead of localStorage ──
-async function saveResponse(email) {
-  const sc = scores();
-  const t = totalScore(sc);
-  const big = biggestKey(sc);
-  const record = {
-    email: email || '',
-    score: t,
-    biggest: big,
-    scores: { transport: sc.transport, energy: sc.energy, food: sc.food, consumption: sc.consumption },
-    ts: new Date().toISOString()
-  };
-  try {
-    let existing = [];
-    try {
-      const result = await window.storage.get(STORAGE_KEY);
-      if (result && result.value) existing = JSON.parse(result.value);
-    } catch(e) { existing = []; }
-    existing.push(record);
-    await window.storage.set(STORAGE_KEY, JSON.stringify(existing));
-  } catch(e) {
-    // Fallback to localStorage if storage API unavailable (e.g. standalone file)
-    try {
-      const existing = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-      existing.push(record);
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(existing));
-    } catch(e2) {}
-  }
-}
-
-// ── FIXED: join clicks also go to persistent storage ──
-async function trackJoinClick() {
-  try {
-    let count = 0;
-    try {
-      const result = await window.storage.get(JOINS_KEY);
-      if (result && result.value) count = parseInt(result.value) || 0;
-    } catch(e) {}
-    await window.storage.set(JOINS_KEY, String(count + 1));
-  } catch(e) {
-    try {
-      const c = parseInt(localStorage.getItem(JOINS_KEY) || '0') + 1;
-      localStorage.setItem(JOINS_KEY, String(c));
-    } catch(e2) {}
-  }
-  window.open('https://www.svyouthclimateaction.org/', '_blank');
-}
-
 function showResults() {
-  // Save with no email if user skipped
-  const emailVal = document.getElementById('femail') ? document.getElementById('femail').value.trim() : '';
-  if (!emailVal) saveResponse('');
+  // If user skipped email, still save a no-email response
+  const emailVal = document.getElementById('femail')?.value.trim() || '';
+  if (!emailVal) saveToSheet('');
   document.getElementById('email-gate').style.display = 'none';
   document.getElementById('results-page').style.display = 'block';
   window.scrollTo(0,0);
   buildResults();
 }
 
+function trackJoinClick() {
+  // Join clicks are tracked separately in the sheet as a special row
+  fetch(SHEET_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ ts: new Date().toISOString(), email: '__join_click__', score: 0, biggest: '', scores: { transport:0, energy:0, food:0, consumption:0 } })
+  }).catch(() => {});
+  window.open('https://www.svyouthclimateaction.org/', '_blank');
+}
+
 function buildResults() {
   const sc = scores();
   const t = totalScore(sc);
   const big = biggestKey(sc);
-
-  document.getElementById('r-eyebrow').textContent = 'Your carbon footprint';
   document.getElementById('r-score').textContent = t;
   document.getElementById('r-pill-you').textContent = t;
   document.getElementById('cg-you').textContent = t;
-
-  let verdictClass, verdictText;
-  if (t < 30) {
-    verdictClass = 'verdict-good';
-    verdictText = 'You\'re crushing it. Your footprint is well below the US average.';
-  } else if (t < 60) {
-    verdictClass = 'verdict-good';
-    verdictText = 'Better than most Americans. A few targeted changes and you could lead the pack.';
-  } else if (t < 90) {
-    verdictClass = 'verdict-avg';
-    verdictText = 'Right around average — which means real room to improve. Let\'s fix that.';
-  } else {
-    verdictClass = 'verdict-high';
-    verdictText = 'Your footprint is high — but that also means huge potential for impact.';
-  }
+  let vClass, vText;
+  if (t < 30) { vClass='verdict-good'; vText='You\'re crushing it. Your footprint is well below the US average.'; }
+  else if (t < 60) { vClass='verdict-good'; vText='Better than most Americans. A few targeted changes and you could lead the pack.'; }
+  else if (t < 90) { vClass='verdict-avg'; vText='Right around average — which means real room to improve. Let\'s fix that.'; }
+  else { vClass='verdict-high'; vText='Your footprint is high — but that also means huge potential for impact.'; }
   const vEl = document.getElementById('r-verdict');
-  vEl.textContent = verdictText;
-  vEl.className = 'results-verdict ' + verdictClass;
-
-  const reflectionIdx = Q.length - 1;
-  const guessOpt = ans[reflectionIdx] !== undefined ? Q[reflectionIdx].opts[ans[reflectionIdx]] : null;
-  const guessedKey = guessOpt ? guessOpt.guess : null;
-  const wasCorrect = guessedKey === big || (guessedKey === 'tech' && big === 'tech');
-  let reflectionHtml = '';
-  if (guessedKey) {
-    const guessName = SEC_NAMES[guessedKey] || guessedKey;
-    const actualName = SEC_NAMES[big];
-    if (wasCorrect) {
-      reflectionHtml = `<div style="background:rgba(127,255,0,.08);border:1px solid rgba(127,255,0,.25);border-radius:16px;padding:1.5rem;margin-bottom:2rem;text-align:center;"><div style="font-size:28px;margin-bottom:8px;">🎯</div><div style="font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--green-neon);margin-bottom:6px;">You nailed it.</div><div style="font-size:14px;color:rgba(255,255,255,.65);line-height:1.6;">You guessed <strong style="color:white;">${guessName}</strong> — and that's exactly right. Most people underestimate this category. You've got good climate instincts.</div></div>`;
-    } else {
-      reflectionHtml = `<div style="background:rgba(244,114,182,.06);border:1px solid rgba(244,114,182,.2);border-radius:16px;padding:1.5rem;margin-bottom:2rem;text-align:center;"><div style="font-size:28px;margin-bottom:8px;">🤔</div><div style="font-family:var(--font-display);font-size:20px;font-weight:700;color:#f472b6;margin-bottom:6px;">Interesting guess.</div><div style="font-size:14px;color:rgba(255,255,255,.65);line-height:1.6;">You guessed <strong style="color:white;">${guessName}</strong>, but your actual biggest source is <strong style="color:var(--green-neon);">${actualName}</strong>. You're not alone — this surprises most people.</div></div>`;
-    }
+  vEl.textContent = vText; vEl.className = 'results-verdict ' + vClass;
+  const guessOpt = ans[Q.length-1]!==undefined ? Q[Q.length-1].opts[ans[Q.length-1]] : null;
+  const gk = guessOpt?.guess;
+  if (gk) {
+    const correct = gk===big||(gk==='tech'&&big==='tech');
+    document.getElementById('reflection-reveal').innerHTML = correct
+      ? `<div style="background:rgba(127,255,0,.08);border:1px solid rgba(127,255,0,.25);border-radius:16px;padding:1.5rem;margin-bottom:2rem;text-align:center;"><div style="font-size:28px;margin-bottom:8px;">🎯</div><div style="font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--green-neon);margin-bottom:6px;">You nailed it.</div><div style="font-size:14px;color:rgba(255,255,255,.65);line-height:1.6;">You guessed <strong style="color:white;">${SEC_NAMES[gk]}</strong> — and that's exactly right.</div></div>`
+      : `<div style="background:rgba(244,114,182,.06);border:1px solid rgba(244,114,182,.2);border-radius:16px;padding:1.5rem;margin-bottom:2rem;text-align:center;"><div style="font-size:28px;margin-bottom:8px;">🤔</div><div style="font-family:var(--font-display);font-size:20px;font-weight:700;color:#f472b6;margin-bottom:6px;">Interesting guess.</div><div style="font-size:14px;color:rgba(255,255,255,.65);line-height:1.6;">You guessed <strong style="color:white;">${SEC_NAMES[gk]}</strong>, but your actual biggest source is <strong style="color:var(--green-neon);">${SEC_NAMES[big]}</strong>.</div></div>`;
   }
-  document.getElementById('reflection-reveal').innerHTML = reflectionHtml;
-
   document.getElementById('biggest-source-line').textContent = `Your biggest source: ${SEC_NAMES[big]}`;
-
   const maxes = {transport:90,energy:45,food:28,consumption:12};
-  const breakHtml = Object.entries(sc).map(([k,v]) => `
-    <div class="breakdown-item">
-      <div class="breakdown-row">
-        <div class="breakdown-name">${SEC_ICONS[k]} ${SEC_NAMES[k]}</div>
-        <div class="breakdown-val" style="color:${SEC_COLORS[k]}">${v}</div>
-      </div>
-      <div class="bar-bg">
-        <div class="bar-fg" id="bar-${k}" style="width:0%;background:${SEC_COLORS[k]}"></div>
-      </div>
-    </div>`).join('');
-  document.getElementById('breakdown-list').innerHTML = breakHtml;
-
-  setTimeout(() => {
-    Object.entries(sc).forEach(([k,v]) => {
-      const el = document.getElementById('bar-' + k);
-      if (el) el.style.width = Math.min(100, Math.round(v / maxes[k] * 100)) + '%';
-    });
-  }, 300);
-
-  const pct = Math.min(95, Math.max(5, Math.round((t / 130) * 100)));
-  setTimeout(() => {
-    document.getElementById('pct-fill').style.width = pct + '%';
-    document.getElementById('pct-marker').style.left = pct + '%';
-  }, 400);
-
-  let pctLabel;
-  if (t < 30) pctLabel = `You're cleaner than roughly 85% of Americans. Outstanding.`;
-  else if (t < 50) pctLabel = `You're cleaner than roughly 65% of Americans. Above average.`;
-  else if (t < 70) pctLabel = `You're around the US median — better than half, worse than half.`;
-  else if (t < 90) pctLabel = `Your footprint is higher than about 60% of Americans.`;
-  else pctLabel = `Your footprint is in the top 25% highest in the US — big room to improve.`;
-  document.getElementById('pct-label').textContent = pctLabel;
-
-  const factsData = ALL_FACTS[big];
-  document.getElementById('facts-grid').innerHTML = factsData.map(f => `
-    <div class="fact-card ${f.color}">
-      <div class="fact-tag">${f.tag}</div>
-      <p class="fact-text">${f.txt}</p>
-    </div>`).join('');
-
+  document.getElementById('breakdown-list').innerHTML = Object.entries(sc).map(([k,v]) => `<div class="breakdown-item"><div class="breakdown-row"><div class="breakdown-name">${SEC_ICONS[k]} ${SEC_NAMES[k]}</div><div class="breakdown-val" style="color:${SEC_COLORS[k]}">${v}</div></div><div class="bar-bg"><div class="bar-fg" id="bar-${k}" style="width:0%;background:${SEC_COLORS[k]}"></div></div></div>`).join('');
+  setTimeout(() => { Object.entries(sc).forEach(([k,v]) => { const el=document.getElementById('bar-'+k); if(el) el.style.width=Math.min(100,Math.round(v/(maxes[k]||1)*100))+'%'; }); }, 300);
+  const pct = Math.min(95, Math.max(5, Math.round((t/130)*100)));
+  setTimeout(() => { document.getElementById('pct-fill').style.width=pct+'%'; document.getElementById('pct-marker').style.left=pct+'%'; }, 400);
+  const pctLabels = [[30,'You\'re cleaner than roughly 85% of Americans. Outstanding.'],[50,'You\'re cleaner than roughly 65% of Americans. Above average.'],[70,'You\'re around the US median — better than half, worse than half.'],[90,'Your footprint is higher than about 60% of Americans.']];
+  document.getElementById('pct-label').textContent = (pctLabels.find(([th])=>t<th)||[,`Your footprint is in the top 25% highest in the US.`])[1];
+  document.getElementById('facts-grid').innerHTML = (ALL_FACTS[big]||[]).map(f=>`<div class="fact-card ${f.color}"><div class="fact-tag">${f.tag}</div><p class="fact-text">${f.txt}</p></div>`).join('');
   const adv = ADVICE[big];
   document.getElementById('advice-headline').textContent = `Cut your ${SEC_NAMES[big].toLowerCase()} footprint`;
-  document.getElementById('advice-content').innerHTML = `
-    <div class="advice-header">
-      <div class="advice-icon-wrap" style="background:${adv.bg};border:1px solid ${adv.border};">${adv.icon}</div>
-      <div class="advice-title">${SEC_NAMES[big]}</div>
-    </div>
-    <p class="advice-desc">${adv.desc}</p>
-    <div class="steps-list">
-      ${adv.steps.map((s,i) => `<div class="step-item"><span class="step-num">${i+1}</span><span class="step-text">${s}</span></div>`).join('')}
-    </div>`;
+  document.getElementById('advice-content').innerHTML = `<div class="advice-header"><div class="advice-icon-wrap" style="background:${adv.bg};border:1px solid ${adv.border};">${adv.icon}</div><div class="advice-title">${SEC_NAMES[big]}</div></div><p class="advice-desc">${adv.desc}</p><div class="steps-list">${adv.steps.map((s,i)=>`<div class="step-item"><span class="step-num">${i+1}</span><span class="step-text">${s}</span></div>`).join('')}</div>`;
 }
 
 function restart() {
-  cur = 0; ans = {};
-  document.getElementById('results-page').style.display = 'none';
-  document.getElementById('survey').style.display = 'block';
-  window.scrollTo(0,0);
-  renderQ(0);
+  cur=0; ans={};
+  document.getElementById('results-page').style.display='none';
+  document.getElementById('survey').style.display='block';
+  window.scrollTo(0,0); renderQ(0);
 }
 </script>
 </body>
