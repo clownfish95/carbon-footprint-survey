@@ -26,12 +26,9 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--text);min-hei
 .topbar-left{display:flex;align-items:center;gap:12px}
 .topbar-logo{font-family:var(--font-display);font-size:14px;font-weight:800;color:var(--green-neon)}
 .topbar-badge{background:rgba(127,255,0,.1);border:1px solid rgba(127,255,0,.2);border-radius:100px;padding:3px 10px;font-size:11px;color:var(--green-neon)}
-.storage-badge{background:rgba(20,184,166,.1);border:1px solid rgba(20,184,166,.2);border-radius:100px;padding:3px 10px;font-size:11px;color:var(--teal)}
 .topbar-right{display:flex;gap:10px;align-items:center}
 .btn-export{font-family:var(--font-body);font-size:13px;font-weight:500;color:var(--text);background:var(--surface2);border:1px solid var(--border2);border-radius:8px;padding:7px 14px;cursor:pointer;transition:all .15s}
 .btn-export:hover{border-color:rgba(127,255,0,.3)}
-.btn-danger{color:var(--red);border-color:rgba(239,68,68,.2)}
-.btn-danger:hover{background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.4)}
 .btn-logout{font-family:var(--font-body);font-size:13px;color:var(--muted);background:none;border:none;cursor:pointer;transition:color .15s}
 .btn-logout:hover{color:var(--text)}
 .stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;padding:24px}
@@ -79,7 +76,8 @@ tbody td{padding:12px 16px;color:var(--text);vertical-align:middle}
 .empty-state{text-align:center;padding:4rem 2rem;color:var(--muted)}
 .empty-state h3{font-family:var(--font-display);font-size:18px;color:var(--text);margin-bottom:8px}
 .empty-state p{font-size:14px;line-height:1.6}
-.notice-bar{background:rgba(20,184,166,.08);border:1px solid rgba(20,184,166,.2);border-radius:10px;padding:10px 16px;margin:0 24px 0;font-size:12px;color:var(--teal);display:flex;align-items:center;gap:8px}
+.notice{background:rgba(20,184,166,.08);border:1px solid rgba(20,184,166,.2);border-radius:10px;padding:10px 16px;margin:16px 24px 0;font-size:12px;color:var(--teal)}
+.loading{text-align:center;padding:3rem;color:var(--muted);font-size:14px}
 @media(max-width:640px){.chart-section{grid-template-columns:1fr}.stats-row{grid-template-columns:repeat(2,1fr)}table{display:block;overflow-x:auto}}
 </style>
 </head>
@@ -93,7 +91,6 @@ tbody td{padding:12px 16px;color:var(--text);vertical-align:middle}
     <input type="password" id="pw-input" placeholder="Enter password">
     <button class="btn-login" onclick="tryLogin()">Access dashboard</button>
     <div class="login-error" id="login-error"></div>
-    <p style="font-size:11px;color:rgba(255,255,255,.15);margin-top:1.5rem;">Change password in the HTML before deploying.</p>
   </div>
 </div>
 
@@ -102,52 +99,29 @@ tbody td{padding:12px 16px;color:var(--text);vertical-align:middle}
     <div class="topbar-left">
       <div class="topbar-logo">SVYCA Admin</div>
       <div class="topbar-badge">Response Dashboard</div>
-      <div class="storage-badge">⚡ Persistent storage</div>
     </div>
     <div class="topbar-right">
       <button class="btn-export" onclick="exportCSV()">⬇ Export CSV</button>
       <button class="btn-export" onclick="copyEmails()">📋 Copy emails</button>
-      <button class="btn-export btn-danger" onclick="clearAllData()">🗑 Clear all</button>
+      <button class="btn-export" onclick="loadData()" style="color:var(--teal);border-color:rgba(20,184,166,.3)">↻ Refresh</button>
       <button class="btn-logout" onclick="logout()">Sign out</button>
     </div>
   </div>
 
-  <div class="notice-bar" id="notice-bar" style="margin-top:16px;">
-    ✓ Data is stored in persistent server-side storage — survives browser clears, incognito, and new sessions.
-  </div>
+  <div class="notice" id="notice">⏳ Loading responses from Google Sheets…</div>
 
-  <div class="stats-row" id="stats-row">
-    <div class="stat-card">
-      <div class="stat-label">Total responses</div>
-      <div class="stat-value" id="stat-total">0</div>
-      <div class="stat-sub">All time</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-label">Emails collected</div>
-      <div class="stat-value" id="stat-emails">0</div>
-      <div class="stat-sub">With email provided</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-label">Average score</div>
-      <div class="stat-value" id="stat-avg">—</div>
-      <div class="stat-sub">US avg: ~75</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-label">Biggest source</div>
-      <div class="stat-value" style="font-size:18px;" id="stat-biggest">—</div>
-      <div class="stat-sub">Most common</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-label">Join SVYCA clicks</div>
-      <div class="stat-value" id="stat-joins">0</div>
-      <div class="stat-sub">Button clicks</div>
-    </div>
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-label">Total responses</div><div class="stat-value" id="stat-total">—</div><div class="stat-sub">All time</div></div>
+    <div class="stat-card"><div class="stat-label">Emails collected</div><div class="stat-value" id="stat-emails">—</div><div class="stat-sub">With email provided</div></div>
+    <div class="stat-card"><div class="stat-label">Average score</div><div class="stat-value" id="stat-avg">—</div><div class="stat-sub">US avg: ~75</div></div>
+    <div class="stat-card"><div class="stat-label">Biggest source</div><div class="stat-value" style="font-size:18px" id="stat-biggest">—</div><div class="stat-sub">Most common</div></div>
+    <div class="stat-card"><div class="stat-label">Join SVYCA clicks</div><div class="stat-value" id="stat-joins">—</div><div class="stat-sub">Button clicks</div></div>
   </div>
 
   <div class="chart-section">
     <div class="chart-card">
       <div class="chart-title">Score distribution</div>
-      <div class="dist-bars" id="dist-bars">
+      <div class="dist-bars">
         <div class="dist-bar-row"><span class="dist-bar-lbl">Very low (&lt;30)</span><div class="dist-bar-track"><div class="dist-bar-fg" id="d1"></div></div><span class="dist-bar-val" id="dv1">0</span></div>
         <div class="dist-bar-row"><span class="dist-bar-lbl">Low (30–59)</span><div class="dist-bar-track"><div class="dist-bar-fg" id="d2" style="background:#7fff00;opacity:.7"></div></div><span class="dist-bar-val" id="dv2">0</span></div>
         <div class="dist-bar-row"><span class="dist-bar-lbl">Avg (60–89)</span><div class="dist-bar-track"><div class="dist-bar-fg" id="d3" style="background:var(--amber)"></div></div><span class="dist-bar-val" id="dv3">0</span></div>
@@ -156,7 +130,7 @@ tbody td{padding:12px 16px;color:var(--text);vertical-align:middle}
     </div>
     <div class="chart-card">
       <div class="chart-title">Biggest emission source (by respondent)</div>
-      <div class="biggest-list" id="biggest-list">
+      <div class="biggest-list">
         <div class="biggest-item"><span class="biggest-item-name">🚗 Transportation</span><span class="biggest-item-count" id="bc-transport" style="color:#5DCAA5">0</span></div>
         <div class="biggest-item"><span class="biggest-item-name">🏠 Home Energy</span><span class="biggest-item-count" id="bc-energy" style="color:#EF9F27">0</span></div>
         <div class="biggest-item"><span class="biggest-item-name">🥦 Food</span><span class="biggest-item-count" id="bc-food" style="color:#7fff00">0</span></div>
@@ -172,24 +146,12 @@ tbody td{padding:12px 16px;color:var(--text);vertical-align:middle}
     </div>
     <div class="table-wrap">
       <table>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Email</th>
-            <th>Score</th>
-            <th>Biggest source</th>
-            <th>Transport</th>
-            <th>Energy</th>
-            <th>Food</th>
-            <th>Consumption</th>
-            <th>Submitted</th>
-          </tr>
-        </thead>
+        <thead><tr><th>#</th><th>Email</th><th>Score</th><th>Biggest source</th><th>Transport</th><th>Energy</th><th>Food</th><th>Consumption</th><th>Submitted</th></tr></thead>
         <tbody id="response-table"></tbody>
       </table>
       <div class="empty-state" id="empty-state" style="display:none;">
         <h3>No responses yet</h3>
-        <p>Once people complete the survey on the main page,<br>their responses will appear here.</p>
+        <p>Responses will appear here once people complete the survey.</p>
       </div>
     </div>
   </div>
@@ -197,10 +159,12 @@ tbody td{padding:12px 16px;color:var(--text);vertical-align:middle}
 
 <script>
 const ADMIN_PASSWORD = 'cfs_svyca_0422';
-const STORAGE_KEY = 'svyca_responses';
-const JOINS_KEY = 'svyca_join_clicks';
-let allResponses = [];
-let filtered = [];
+// ── Same Apps Script URL as the survey ──────────────────────────────────────
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbwSnDSa_9kd8xoagei42DBQTTKVXu3OJvucHCR3Kr0FCcnMSbHBknuAN2IcPWTrdD1f/exec';
+// ────────────────────────────────────────────────────────────────────────────
+
+const CAT_NAMES = {transport:'Transportation',energy:'Home Energy',food:'Food',consumption:'Consumption'};
+let allResponses = [], filtered = [];
 
 document.getElementById('pw-input').addEventListener('keydown', e => { if(e.key==='Enter') tryLogin(); });
 
@@ -224,67 +188,39 @@ function logout() {
   document.getElementById('pw-input').value = '';
 }
 
-const CAT_NAMES = {transport:'Transportation',energy:'Home Energy',food:'Food',consumption:'Consumption'};
-
 async function loadData() {
-  // 1. Load from persistent storage
-  let stored = [];
+  setNotice('⏳ Loading responses from Google Sheets…');
   try {
-    const result = await window.storage.get(STORAGE_KEY);
-    if (result && result.value) stored = JSON.parse(result.value);
-  } catch(e) { stored = []; }
-
-  // 2. Migrate any existing localStorage data (one-time migration)
-  let migrated = 0;
-  try {
-    const legacy = JSON.parse(localStorage.getItem('svyca_responses') || '[]');
-    if (legacy.length > 0) {
-      const storedIds = new Set(stored.map(r => r.ts + (r.email||'')));
-      for (const r of legacy) {
-        const id = r.ts + (r.email||'');
-        if (!storedIds.has(id)) { stored.push(r); migrated++; }
-      }
-      if (migrated > 0) {
-        await window.storage.set(STORAGE_KEY, JSON.stringify(stored));
-        localStorage.removeItem('svyca_responses');
-        document.getElementById('notice-bar').textContent = `⬆ Migrated ${migrated} response(s) from localStorage to persistent storage. localStorage cleared.`;
-      }
-    }
-  } catch(e) {}
-
-  // 3. Load join clicks
-  let joinClicks = 0;
-  try {
-    const jResult = await window.storage.get(JOINS_KEY);
-    if (jResult) joinClicks = parseInt(jResult.value) || 0;
-    // Also check legacy localStorage
-    const legacyJ = parseInt(localStorage.getItem('svyca_join_clicks') || '0');
-    if (legacyJ > 0) {
-      joinClicks += legacyJ;
-      await window.storage.set(JOINS_KEY, String(joinClicks));
-      localStorage.removeItem('svyca_join_clicks');
-    }
-  } catch(e) {}
-
-  allResponses = stored;
-  filtered = [...allResponses].reverse();
-  updateStats(joinClicks);
-  updateCharts();
-  renderTable(filtered);
+    const res = await fetch(SHEET_URL + '?action=read');
+    const json = await res.json();
+    // Filter out join-click tracking rows
+    allResponses = (json.rows || []).filter(r => r.email !== '__join_click__');
+    const joinClicks = (json.rows || []).filter(r => r.email === '__join_click__').length;
+    filtered = [...allResponses].reverse();
+    updateStats(joinClicks);
+    updateCharts();
+    renderTable(filtered);
+    setNotice(`✓ ${allResponses.length} response${allResponses.length!==1?'s':''} loaded from Google Sheets · Last refreshed ${new Date().toLocaleTimeString()}`);
+  } catch(e) {
+    setNotice('⚠ Could not load data from Google Sheets. Make sure the Apps Script is deployed and the doGet function is added.');
+  }
 }
 
-function updateStats(joinClicks = 0) {
-  const n = allResponses.length;
-  const withEmail = allResponses.filter(r => r.email).length;
-  const avg = n > 0 ? Math.round(allResponses.reduce((a,r) => a + r.score, 0) / n) : 0;
-  const bigCount = {transport:0,energy:0,food:0,consumption:0};
-  allResponses.forEach(r => { if(r.biggest) bigCount[r.biggest]++; });
-  const topBig = Object.entries(bigCount).sort((a,b)=>b[1]-a[1])[0];
+function setNotice(msg) {
+  document.getElementById('notice').textContent = msg;
+}
 
+function updateStats(joinClicks) {
+  const n = allResponses.length;
+  const withEmail = allResponses.filter(r => r.email && r.email.trim()).length;
+  const avg = n > 0 ? Math.round(allResponses.reduce((a,r) => a + Number(r.score), 0) / n) : 0;
+  const bigCount = {transport:0,energy:0,food:0,consumption:0};
+  allResponses.forEach(r => { if(r.biggest && bigCount[r.biggest]!==undefined) bigCount[r.biggest]++; });
+  const topBig = Object.entries(bigCount).sort((a,b)=>b[1]-a[1])[0];
   document.getElementById('stat-total').textContent = n;
   document.getElementById('stat-emails').textContent = withEmail;
   document.getElementById('stat-avg').textContent = n > 0 ? avg : '—';
-  document.getElementById('stat-biggest').textContent = topBig && topBig[1] > 0 ? CAT_NAMES[topBig[0]] : '—';
+  document.getElementById('stat-biggest').textContent = topBig&&topBig[1]>0 ? CAT_NAMES[topBig[0]] : '—';
   document.getElementById('stat-joins').textContent = joinClicks;
 }
 
@@ -292,108 +228,70 @@ function updateCharts() {
   const dist = [0,0,0,0];
   const bigCount = {transport:0,energy:0,food:0,consumption:0};
   allResponses.forEach(r => {
-    if (r.score < 30) dist[0]++;
-    else if (r.score < 60) dist[1]++;
-    else if (r.score < 90) dist[2]++;
-    else dist[3]++;
-    if (r.biggest) bigCount[r.biggest]++;
+    const s = Number(r.score);
+    if(s<30) dist[0]++; else if(s<60) dist[1]++; else if(s<90) dist[2]++; else dist[3]++;
+    if(r.biggest && bigCount[r.biggest]!==undefined) bigCount[r.biggest]++;
   });
   const maxD = Math.max(...dist, 1);
   ['d1','d2','d3','d4'].forEach((id,i) => {
-    document.getElementById(id).style.width = Math.round(dist[i]/maxD*100) + '%';
+    document.getElementById(id).style.width = Math.round(dist[i]/maxD*100)+'%';
     document.getElementById('dv'+(i+1)).textContent = dist[i];
   });
-  Object.keys(bigCount).forEach(k => {
-    document.getElementById('bc-'+k).textContent = bigCount[k];
-  });
+  Object.keys(bigCount).forEach(k => { document.getElementById('bc-'+k).textContent = bigCount[k]; });
 }
 
 function scoreClass(s) {
-  if (s < 50) return 'score-low';
-  if (s < 80) return 'score-mid';
+  s = Number(s);
+  if(s<50) return 'score-low';
+  if(s<80) return 'score-mid';
   return 'score-high';
 }
 
 function renderTable(data) {
   const tbody = document.getElementById('response-table');
   const empty = document.getElementById('empty-state');
-  if (data.length === 0) {
-    tbody.innerHTML = '';
-    empty.style.display = 'block';
-    return;
-  }
-  empty.style.display = 'none';
-  tbody.innerHTML = data.map((r, i) => {
+  if(data.length===0) { tbody.innerHTML=''; empty.style.display='block'; return; }
+  empty.style.display='none';
+  tbody.innerHTML = data.map((r,i) => {
     const ts = r.ts ? new Date(r.ts).toLocaleDateString('en-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}) : '—';
-    const sc = r.scores || {};
     return `<tr>
-      <td style="color:var(--muted);font-size:12px;">${allResponses.length - i}</td>
-      <td class="td-email">${r.email || '<span style="color:rgba(255,255,255,.15)">not provided</span>'}</td>
+      <td style="color:var(--muted);font-size:12px;">${allResponses.length-i}</td>
+      <td class="td-email">${r.email||'<span style="color:rgba(255,255,255,.15)">not provided</span>'}</td>
       <td><span class="score-pill ${scoreClass(r.score)}">${r.score}</span></td>
-      <td><span class="cat-badge cat-${r.biggest}">${CAT_NAMES[r.biggest] || '—'}</span></td>
-      <td style="color:#5DCAA5;font-size:12px;">${sc.transport ?? '—'}</td>
-      <td style="color:#EF9F27;font-size:12px;">${sc.energy ?? '—'}</td>
-      <td style="color:#7fff00;font-size:12px;">${sc.food ?? '—'}</td>
-      <td style="color:#AFA9EC;font-size:12px;">${sc.consumption ?? '—'}</td>
+      <td><span class="cat-badge cat-${r.biggest}">${CAT_NAMES[r.biggest]||'—'}</span></td>
+      <td style="color:#5DCAA5;font-size:12px;">${r.transport??'—'}</td>
+      <td style="color:#EF9F27;font-size:12px;">${r.energy??'—'}</td>
+      <td style="color:#7fff00;font-size:12px;">${r.food??'—'}</td>
+      <td style="color:#AFA9EC;font-size:12px;">${r.consumption??'—'}</td>
       <td class="td-ts">${ts}</td>
     </tr>`;
   }).join('');
 }
 
-function filterTable(query) {
-  const q = query.toLowerCase();
-  filtered = allResponses.filter(r => (r.email || '').toLowerCase().includes(q)).reverse();
+function filterTable(q) {
+  q = q.toLowerCase();
+  filtered = allResponses.filter(r => (r.email||'').toLowerCase().includes(q)).reverse();
   renderTable(filtered);
 }
 
 function copyEmails() {
-  const emails = allResponses.filter(r => r.email).map(r => r.email).join('\n');
-  if (!emails) { alert('No emails collected yet.'); return; }
-  navigator.clipboard.writeText(emails).then(() => alert(`Copied ${allResponses.filter(r=>r.email).length} email(s) to clipboard.`));
+  const emails = allResponses.filter(r=>r.email&&r.email.trim()).map(r=>r.email).join('\n');
+  if(!emails) { alert('No emails collected yet.'); return; }
+  navigator.clipboard.writeText(emails).then(()=>alert(`Copied ${allResponses.filter(r=>r.email&&r.email.trim()).length} email(s) to clipboard.`));
 }
 
 function exportCSV() {
-  if (allResponses.length === 0) { alert('No responses yet.'); return; }
+  if(allResponses.length===0) { alert('No responses yet.'); return; }
   const rows = [['#','Email','Total Score','Biggest Source','Transport','Energy','Food','Consumption','Submitted']];
   [...allResponses].reverse().forEach((r,i) => {
-    const sc = r.scores || {};
-    rows.push([i+1, r.email||'', r.score, CAT_NAMES[r.biggest]||'', sc.transport||0, sc.energy||0, sc.food||0, sc.consumption||0, r.ts||'']);
+    rows.push([i+1,r.email||'',r.score,CAT_NAMES[r.biggest]||'',r.transport||0,r.energy||0,r.food||0,r.consumption||0,r.ts||'']);
   });
-  const csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
-  const blob = new Blob([csv], {type:'text/csv'});
+  const csv = rows.map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
   const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'svyca-responses-' + new Date().toISOString().slice(0,10) + '.csv';
+  a.href = URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
+  a.download = 'svyca-responses-'+new Date().toISOString().slice(0,10)+'.csv';
   a.click();
 }
-
-async function clearAllData() {
-  if (!confirm(`Delete all ${allResponses.length} responses permanently? This cannot be undone.`)) return;
-  try {
-    await window.storage.delete(STORAGE_KEY);
-    allResponses = [];
-    filtered = [];
-    updateStats(0);
-    updateCharts();
-    renderTable([]);
-    document.getElementById('notice-bar').textContent = '🗑 All responses cleared from persistent storage.';
-  } catch(e) {
-    alert('Error clearing data: ' + e.message);
-  }
-}
-
-// === PUBLIC API: call this from your survey page to save a response ===
-// window.svycaSaveResponse({ email, score, biggest, scores: {transport, energy, food, consumption}, ts })
-window.svycaSaveResponse = async function(response) {
-  let existing = [];
-  try {
-    const result = await window.storage.get(STORAGE_KEY);
-    if (result && result.value) existing = JSON.parse(result.value);
-  } catch(e) {}
-  response.ts = response.ts || new Date().toISOString();
-  existing.push(response);
-  await window.storage.set(STORAGE_KEY, JSON.stringify(existing));
-};
 </script>
 </body>
 </html>
